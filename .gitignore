@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Local plugin state and diagnostics
+power-saver.json
+*.debug.json
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

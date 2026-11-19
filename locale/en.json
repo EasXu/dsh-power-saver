@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Auto power-off",
+    "description": "Shut down, hibernate, or lock this computer after every session and background job has finished. Open the Auto power-off entry at the bottom of the left sidebar to enable it and choose the action, idle wait, countdown, and optional active window; once a countdown starts, the sidebar foot shows the remaining time and the panel offers a cancel button. The plugin works only while DSH runs, and the dry run performs no system action."
+  }
+}

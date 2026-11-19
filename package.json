@@ -1,0 +1,59 @@
+{
+  "name": "dsh-power-saver",
+  "version": "0.2.0",
+  "description": "Shut down, hibernate, or lock this computer once every DeepSeek Harness session and background job has finished.",
+  "license": "MIT",
+  "author": "EastonXu (https://github.com/EasXu)",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "power-management",
+    "shutdown",
+    "hibernate",
+    "lock-screen"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasXu/dsh-power-saver.git"
+  },
+  "homepage": "https://github.com/EasXu/dsh-power-saver#readme",
+  "bugs": {
+    "url": "https://github.com/EasXu/dsh-power-saver/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/engine.test.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": []
+    }
+  }
+}
