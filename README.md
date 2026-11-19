@@ -1,4 +1,8 @@
 <p align="center">
+  <strong>English</strong> | <a href="README.zh.md">简体中文</a>
+</p>
+
+<p align="center">
   <img src="icon.svg" width="72" height="72" alt="dsh-power-saver icon">
 </p>
 
@@ -6,7 +10,7 @@
 
 <p align="center">
   Shut down, hibernate, or lock this PC once every DSH project has finished.<br>
-  <a href="README.zh.md">中文说明</a> ·
+  <sub>所有 DSH 项目跑完后，自动关机、休眠或锁定这台电脑。</sub><br>
   <a href="https://github.com/EasXu/dsh-power-saver/issues">Issues</a> ·
   <a href="LICENSE">MIT License</a>
 </p>
@@ -127,6 +131,10 @@ The Host engine is exported through `__test` so the state machine can be exercis
 ## Privacy
 
 No network requests. No analytics. Configuration stays in `$DSH_HOME/power-saver.json`; the UI talks to the local Host only.
+
+## Contributing
+
+Issues and pull requests are welcome. Run `npm test` before opening a PR; keep the plugin dependency-free and add tests for Host state-machine changes.
 
 ## License
 

@@ -1,3 +1,5 @@
+English | [简体中文](CHANGELOG.zh.md)
+
 # Changelog
 
 ## 0.2.0 — 2026-11-19

@@ -21,7 +21,8 @@
     "README.md",
     "README.zh.md",
     "LICENSE",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "CHANGELOG.zh.md"
   ],
   "keywords": [
     "dsh",

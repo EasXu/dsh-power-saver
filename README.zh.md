@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="README.md">English</a> | <strong>简体中文</strong>
+</p>
+
+<p align="center">
   <img src="icon.svg" width="72" height="72" alt="dsh-power-saver 图标">
 </p>
 
@@ -6,7 +10,7 @@
 
 <p align="center">
   所有 DSH 项目跑完后，自动关机、休眠或锁定这台电脑。<br>
-  <a href="README.md">English</a> ·
+  <sub>Shut down, hibernate, or lock this PC once every DSH project has finished.</sub><br>
   <a href="https://github.com/EasXu/dsh-power-saver/issues">问题反馈</a> ·
   <a href="LICENSE">MIT 许可</a>
 </p>
@@ -127,6 +131,10 @@ Host 状态机通过 `__test` 导出，可以用假时钟和假服务测试，�
 ## 隐私
 
 不发起网络请求，无分析上报。配置只保存在 `$DSH_HOME/power-saver.json`，界面只与本机 Host 通信。
+
+## 贡献
+
+欢迎提交 issue 和 PR。提交前请运行 `npm test`；插件保持零依赖，Host 状态机的改动请补充测试。
 
 ## 许可
 
