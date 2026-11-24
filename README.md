@@ -60,13 +60,13 @@ Alternatively, ask a DSH agent to install it from the absolute directory with `p
 
 ## Usage
 
-1. Click **Auto power-off** at the sidebar foot. The panel shows the current state and a one-line plan such as `Plan: shut down · all day · after 10 min idle, a 01:00 countdown`.
-2. Turn on the **Enable** switch. For **shut down** or **hibernate**, a confirmation appears first with the exact plan; for **lock** or **notify only**, it enables immediately.
+1. Click **Auto power-off** at the sidebar foot. The panel shows the current state, and the fields below show the running plan.
+2. Turn on the **Enable** switch. For **shut down** or **hibernate**, a confirmation appears first with the exact plan; for **lock** or **No action**, it enables immediately.
 3. Choose the action and timing:
 
 | Setting | Default | Meaning |
 |---|---|---|
-| Action | shut down | `shut down`, `hibernate`, `lock the screen`, or `notify only` (dry run) |
+| Action | shut down | `shut down`, `hibernate`, `lock the screen`, or `No action` (log only) |
 | Idle wait | 10 min | How long every project must stay finished before the countdown starts. `0` starts it immediately (0–720 min) |
 | Countdown | 60 s | Grace period before acting; cancel any time. `0` acts immediately (0–1800 s) |
 | Active window | empty | Both fields empty = all day. If set, fill both; for a window across midnight, start later than end, e.g. `22:00–05:00`. The plugin only detects and times work inside this window |

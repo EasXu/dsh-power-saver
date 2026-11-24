@@ -2,6 +2,12 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.3 — 2026-11-24
+
+- Replaced the native action `<select>` with a theme-matched dropdown: the menu surface, rounded corners, hover and selected states now follow DSH tokens, and the native blue highlight is gone.
+- The menu opens aligned to its field, focuses the current option, and closes on outside click, Escape, or selection.
+- Renamed the no-op action to "No action" (仅提示) so it fits the aligned field label.
+
 ## 0.3.2 — 2026-11-24
 
 - The action menu, idle field, and countdown field now use the same width as the end-time field and align vertically with it. The time row keeps its two equal fields.

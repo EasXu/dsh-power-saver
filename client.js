@@ -73,7 +73,7 @@ window.__ModuleLoader__.load({
       'action.shutdown': '关机',
       'action.hibernate': '休眠',
       'action.lock': '锁定屏幕',
-      'action.none': '只提示，不执行',
+      'action.none': '仅提示',
       'section.action': '触发动作',
       'section.idle': '空闲等待',
       'section.countdown': '执行倒计时',
@@ -110,7 +110,7 @@ window.__ModuleLoader__.load({
       'error.test': '试运行未能启动：{detail}',
       'error.hint': '如果一直失败，请刷新页面后重试。',
       'confirm.title': '确认启用自动电源操作？',
-      'confirm.body': '启用后会按这份计划执行：{summary}。关机或休眠会强制关闭其他程序；如果还不放心，可以先把动作改成「只提示，不执行」再启用。',
+      'confirm.body': '启用后会按这份计划执行：{summary}。关机或休眠会强制关闭其他程序；如果还不放心，可以先把动作改成「仅提示」再启用。',
       'confirm.ok': '确认启用',
       'confirm.cancel': '暂不启用',
       'hint.actionSafety': '关机将强制关闭其他程序；休眠需系统已启用休眠。',
@@ -164,7 +164,7 @@ window.__ModuleLoader__.load({
       'action.shutdown': 'shut down',
       'action.hibernate': 'hibernate',
       'action.lock': 'lock the screen',
-      'action.none': 'notify only',
+      'action.none': 'No action',
       'section.action': 'Action',
       'section.idle': 'Idle wait',
       'section.countdown': 'Countdown',
@@ -201,7 +201,7 @@ window.__ModuleLoader__.load({
       'error.test': 'The dry run could not start: {detail}',
       'error.hint': 'If this keeps failing, reload the page and try again.',
       'confirm.title': 'Enable automatic power actions?',
-      'confirm.body': 'Enabling applies this plan: {summary}. Shutting down or hibernating force-closes other applications; if unsure, change the action to "Notify only" first.',
+      'confirm.body': 'Enabling applies this plan: {summary}. Shutting down or hibernating force-closes other applications; if unsure, change the action to "No action" first.',
       'confirm.ok': 'Enable',
       'confirm.cancel': 'Not now',
       'hint.actionSafety': 'Shut down force-closes other apps; hibernation must be enabled in the OS.',
@@ -250,8 +250,17 @@ window.__ModuleLoader__.load({
 .psb-control > :only-child{grid-column:3}
 .psb-control > :only-child:not(.psb-switch){width:100%}
 .psb-control > .psb-switch{justify-self:end}
-.psb-select{width:100%;height:30px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;outline:none;box-sizing:border-box}
-.psb-select:focus{border-color:var(--dsw-alias-brand-primary)}
+.psb-selectField{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;height:30px;padding:0 8px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
+.psb-selectField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
+.psb-selectField:disabled{opacity:.5;cursor:default}
+.psb-selectValue{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psb-selectChevron{flex:none;color:var(--dsw-alias-label-secondary)}
+.psb-menu{position:fixed;z-index:50;width:176px;padding:4px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
+.psb-menuItem{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;height:30px;padding:0 8px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
+.psb-menuItem:hover,.psb-menuItem:focus-visible{outline:none;background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
+.psb-menuItem[data-selected]{color:var(--dsw-alias-brand-primary);font-weight:500;background:var(--dsw-alias-bg-layer-1)}
+.psb-menuLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psb-menuCheck{flex:none;color:var(--dsw-alias-brand-primary)}
 .psb-field{display:flex;align-items:center;width:100%;min-width:0;height:30px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
 .psb-field:focus-within{border-color:var(--dsw-alias-brand-primary)}
 .psb-fieldInput{flex:1;min-width:0;height:100%;padding:0 8px;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;outline:none;text-align:right}
@@ -417,6 +426,18 @@ window.__ModuleLoader__.load({
         h('path', { d: 'M6 6l12 12M18 6L6 18', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round' }))
     }
 
+    /** Chevron for the custom action menu. */
+    function ChevronIcon() {
+      return h('svg', { width: 12, height: 12, viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': true, className: 'psb-selectChevron' },
+        h('path', { d: 'M6 9l6 6 6-6', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }))
+    }
+
+    /** Check glyph for the selected menu option. */
+    function CheckIcon() {
+      return h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': true, className: 'psb-menuCheck' },
+        h('path', { d: 'M5 12.5l4.5 4.5L19 7.5', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }))
+    }
+
     /** Pad a clock part. */
     function pad2(value) {
       return String(value).padStart(2, '0')
@@ -505,6 +526,50 @@ window.__ModuleLoader__.load({
         }, t('time.clear')),
         h('span', { className: 'psb-timeSpacer' }),
         h('button', { type: 'button', className: 'psb-btn primary', onClick: onClose }, t('time.done'))))
+    }
+
+    /** A custom, theme-matched action menu anchored to its field. */
+    function ActionMenu({ left, top, value, t, onSelect, onClose }) {
+      const rootRef = useRef(null)
+      const selectedRef = useRef(null)
+
+      useEffect(() => {
+        const onPointer = event => {
+          const root = rootRef.current
+          if (root !== null && root.contains(event.target)) return
+          if (event.target instanceof Element && event.target.closest('[data-psb-actionmenu]') !== null) return
+          onClose()
+        }
+        document.addEventListener('pointerdown', onPointer, true)
+        return () => document.removeEventListener('pointerdown', onPointer, true)
+      }, [onClose])
+
+      useEffect(() => {
+        selectedRef.current?.focus()
+      }, [])
+
+      return h('div', {
+        ref: rootRef,
+        className: 'psb-menu',
+        style: { left, top },
+        role: 'listbox',
+        'aria-label': t('section.action'),
+      },
+      ACTIONS.map(option => {
+        const selected = option === value
+        return h('button', {
+          key: option,
+          ref: selected ? selectedRef : undefined,
+          type: 'button',
+          role: 'option',
+          'aria-selected': selected ? 'true' : 'false',
+          className: 'psb-menuItem',
+          'data-selected': selected ? true : undefined,
+          onClick: () => onSelect(option),
+        },
+        h('span', { className: 'psb-menuLabel' }, t(`action.${option}`)),
+        selected ? h(CheckIcon) : null)
+      }))
     }
 
     /** Accessible switch. */
@@ -603,6 +668,7 @@ window.__ModuleLoader__.load({
       const [notice, setNotice] = useState(null)
       const [confirming, setConfirming] = useState(false)
       const [picker, setPicker] = useState(null)
+      const [menu, setMenu] = useState(null)
       const [cancelError, setCancelError] = useState('')
       const rootRef = useRef(null)
       const panelRef = useRef(null)
@@ -677,6 +743,10 @@ window.__ModuleLoader__.load({
         }
         const onKey = event => {
           if (event.key !== 'Escape') return
+          if (menu !== null) {
+            setMenu(null)
+            return
+          }
           if (picker !== null) {
             setPicker(null)
             return
@@ -690,13 +760,24 @@ window.__ModuleLoader__.load({
           document.removeEventListener('pointerdown', onPointer, true)
           document.removeEventListener('keydown', onKey, true)
         }
-      }, [open, picker])
+      }, [open, menu, picker])
 
       // Move focus into the panel so keyboard users land on its controls.
       useEffect(() => {
         if (open) panelRef.current?.focus()
-        else setPicker(null)
+        else {
+          setPicker(null)
+          setMenu(null)
+        }
       }, [open])
+
+      // A countdown locks the action; close any open picker/menu with it.
+      useEffect(() => {
+        if (state?.phase === 'countdown' || state?.phase === 'executing') {
+          setPicker(null)
+          setMenu(null)
+        }
+      }, [state?.phase])
 
       const serverSettings = data?.settings ?? null
       const view = describe(t, data)
@@ -812,6 +893,7 @@ window.__ModuleLoader__.load({
 
       /** Open the non-looping hour/minute picker for one field. */
       const openTimeField = (which, event) => {
+        setMenu(null)
         const rect = event.currentTarget.getBoundingClientRect()
         const width = 200
         const height = 250
@@ -820,6 +902,19 @@ window.__ModuleLoader__.load({
           ? rect.bottom + 6
           : Math.max(8, rect.top - height - 6)
         setPicker(current => (current !== null && current.which === which ? null : { which, left, top }))
+      }
+
+      /** Open the custom action menu aligned to its field. */
+      const openActionMenu = event => {
+        setPicker(null)
+        const rect = event.currentTarget.getBoundingClientRect()
+        const width = 176
+        const height = 132
+        const left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8))
+        const top = rect.bottom + 4 + height <= window.innerHeight - 8
+          ? rect.bottom + 4
+          : Math.max(8, rect.top - height - 4)
+        setMenu(current => (current === null ? { left, top } : null))
       }
 
       return h('div', { ref: rootRef, className: wide ? 'psb-layer' : 'psb-layer psb-rail' },
@@ -883,13 +978,24 @@ window.__ModuleLoader__.load({
 
             h('div', { className: 'psb-rows' },
               h(Row, { label: t('section.action') },
-                h('select', {
-                  className: 'psb-select',
+                h('button', {
+                  type: 'button',
+                  className: 'psb-selectField',
+                  'data-psb-actionmenu': 'true',
+                  'aria-haspopup': 'listbox',
+                  'aria-expanded': menu !== null,
                   'aria-label': t('section.action'),
-                  value: draft?.action ?? 'shutdown',
+                  title: t(`action.${draft?.action ?? 'shutdown'}`),
                   disabled: busy || draft === null || state?.phase === 'countdown',
-                  onChange: event => edit('action', event.target.value),
-                }, ACTIONS.map(value => h('option', { key: value, value }, t(`action.${value}`))))),
+                  onClick: openActionMenu,
+                  onKeyDown: event => {
+                    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+                    event.preventDefault()
+                    openActionMenu(event)
+                  },
+                },
+                h('span', { className: 'psb-selectValue' }, t(`action.${draft?.action ?? 'shutdown'}`)),
+                h(ChevronIcon))),
               h(Row, { label: t('section.idle') },
                 h('div', { className: 'psb-field' },
                   h('input', {
@@ -975,6 +1081,16 @@ window.__ModuleLoader__.load({
             t,
             onChange: next => edit(picker.which === 'start' ? 'windowStart' : 'windowEnd', next),
             onClose: () => setPicker(null),
+          })
+          : null,
+        open && menu !== null
+          ? h(ActionMenu, {
+            left: menu.left,
+            top: menu.top,
+            value: draft?.action ?? 'shutdown',
+            t,
+            onSelect: next => { edit('action', next); setMenu(null) },
+            onClose: () => setMenu(null),
           })
           : null,
         h('button', {
