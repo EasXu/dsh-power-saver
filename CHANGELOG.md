@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.5 — 2026-11-24
+
+- The action menu now uses exactly the field's width and aligns with its left and right edges.
+
 ## 0.3.4 — 2026-11-24
 
 - Centred the content of the aligned fields: the action label, and the number plus its unit, sit in the middle of their box like the time fields. The action chevron stays at the right edge.

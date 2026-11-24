@@ -255,8 +255,8 @@ window.__ModuleLoader__.load({
 .psb-selectField:disabled{opacity:.5;cursor:default}
 .psb-selectValue{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .psb-selectChevron{position:absolute;right:6px;top:50%;transform:translateY(-50%);flex:none;width:11px;height:11px;color:var(--dsw-alias-label-secondary);pointer-events:none}
-.psb-menu{position:fixed;z-index:50;width:176px;padding:4px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
-.psb-menuItem{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;height:30px;padding:0 8px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
+.psb-menu{position:fixed;z-index:50;padding:2px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
+.psb-menuItem{display:flex;align-items:center;justify-content:space-between;gap:4px;width:100%;height:30px;padding:0 6px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
 .psb-menuItem:hover,.psb-menuItem:focus-visible{outline:none;background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-menuItem[data-selected]{color:var(--dsw-alias-brand-primary);font-weight:500;background:var(--dsw-alias-bg-layer-1)}
 .psb-menuLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -529,7 +529,7 @@ window.__ModuleLoader__.load({
     }
 
     /** A custom, theme-matched action menu anchored to its field. */
-    function ActionMenu({ left, top, value, t, onSelect, onClose }) {
+    function ActionMenu({ left, top, width, value, t, onSelect, onClose }) {
       const rootRef = useRef(null)
       const selectedRef = useRef(null)
 
@@ -551,7 +551,7 @@ window.__ModuleLoader__.load({
       return h('div', {
         ref: rootRef,
         className: 'psb-menu',
-        style: { left, top },
+        style: { left, top, width },
         role: 'listbox',
         'aria-label': t('section.action'),
       },
@@ -565,6 +565,7 @@ window.__ModuleLoader__.load({
           'aria-selected': selected ? 'true' : 'false',
           className: 'psb-menuItem',
           'data-selected': selected ? true : undefined,
+          title: t(`action.${option}`),
           onClick: () => onSelect(option),
         },
         h('span', { className: 'psb-menuLabel' }, t(`action.${option}`)),
@@ -908,13 +909,13 @@ window.__ModuleLoader__.load({
       const openActionMenu = event => {
         setPicker(null)
         const rect = event.currentTarget.getBoundingClientRect()
-        const width = 176
-        const height = 132
-        const left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8))
+        const width = Math.round(rect.width) || 120
+        const height = 128
+        const left = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8))
         const top = rect.bottom + 4 + height <= window.innerHeight - 8
           ? rect.bottom + 4
           : Math.max(8, rect.top - height - 4)
-        setMenu(current => (current === null ? { left, top } : null))
+        setMenu(current => (current === null ? { left, top, width } : null))
       }
 
       return h('div', { ref: rootRef, className: wide ? 'psb-layer' : 'psb-layer psb-rail' },
@@ -1087,6 +1088,7 @@ window.__ModuleLoader__.load({
           ? h(ActionMenu, {
             left: menu.left,
             top: menu.top,
+            width: menu.width,
             value: draft?.action ?? 'shutdown',
             t,
             onSelect: next => { edit('action', next); setMenu(null) },
