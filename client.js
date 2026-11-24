@@ -242,8 +242,8 @@ window.__ModuleLoader__.load({
 .psb-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--dsw-alias-border-l1)}
 .psb-row:first-child{border-top:none;padding-top:2px}
 .psb-rowText{flex:1;min-width:0}
-.psb-labelText{font-size:12.5px;font-weight:500;line-height:1.5}
-.psb-control{flex:0 1 156px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
+.psb-labelText{font-size:12px;font-weight:500;line-height:1.5}
+.psb-control{flex:0 1 150px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
 .psb-control > :only-child{grid-column:3}
 .psb-control > :only-child:not(.psb-switch){width:100%}
 .psb-control > .psb-switch{justify-self:end}
@@ -253,14 +253,14 @@ window.__ModuleLoader__.load({
 .psb-selectValue{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .psb-selectChevron{position:absolute;right:3px;top:50%;transform:translateY(-50%);flex:none;width:8px;height:8px;color:var(--dsw-alias-label-secondary);pointer-events:none}
 .psb-menu{position:fixed;z-index:50;padding:2px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
-.psb-menuItem{display:flex;align-items:center;justify-content:flex-start;gap:4px;width:100%;height:30px;padding:0 4px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
+.psb-menuItem{display:flex;align-items:center;justify-content:flex-start;gap:4px;width:100%;height:30px;padding:0 3px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12.5px;text-align:left;cursor:pointer}
 .psb-menuItem:hover,.psb-menuItem:focus-visible{outline:none;background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-menuItem[data-selected]{color:var(--dsw-alias-brand-primary);font-weight:500;background:var(--dsw-alias-bg-layer-1)}
 .psb-menuLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.psb-field{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;min-width:0;height:30px;padding:0 5px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
+.psb-field{display:flex;align-items:center;justify-content:center;gap:2px;width:100%;min-width:0;height:30px;padding:0 5px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
 .psb-field:focus-within{border-color:var(--dsw-alias-brand-primary)}
-.psb-fieldInput{flex:none;width:4ch;height:100%;padding:0;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;outline:none;text-align:right}
-.psb-fieldUnit{flex:none;font-size:12px;color:var(--dsw-alias-label-secondary)}
+.psb-fieldInput{flex:none;width:4ch;height:100%;padding:0;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12.5px;font-variant-numeric:tabular-nums;outline:none;text-align:right}
+.psb-fieldUnit{flex:none;font-size:11.5px;color:var(--dsw-alias-label-secondary)}
 .psb-timeField{display:inline-flex;align-items:center;justify-content:center;width:100%;min-width:0;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer;box-sizing:border-box}
 .psb-timeField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-timeField:disabled{opacity:.5;cursor:default}
@@ -700,15 +700,20 @@ window.__ModuleLoader__.load({
           const element = rootRef.current
           if (element === null) return
           const rect = element.getBoundingClientRect()
+          const trigger = triggerRef.current?.getBoundingClientRect()
           const drawer = element.closest('[data-sidebar-drawer]')
           const drawerWidth = drawer === null ? null : drawer.getBoundingClientRect().width
           const maxWidth = drawerWidth === null
             ? window.innerWidth - 24
-            : Math.min(window.innerWidth - 24, Math.max(260, drawerWidth - 16))
-          const width = Math.min(260, maxWidth)
+            : Math.min(window.innerWidth - 24, Math.max(220, drawerWidth - 16))
+          // The footer row owns the width; the panel matches it exactly in the
+          // expanded sidebar and falls back to a compact width in the rail.
+          const desired = wide && trigger !== undefined ? Math.round(trigger.width) : 260
+          const width = Math.min(desired, maxWidth)
+          const baseLeft = wide && trigger !== undefined ? trigger.left : rect.left
           const left = drawerWidth === null
-            ? Math.max(8, Math.min(rect.left, window.innerWidth - width - 12))
-            : Math.max(8, Math.min(rect.left, Math.max(8, drawerWidth - width - 8)))
+            ? Math.max(4, Math.min(baseLeft, window.innerWidth - width - 8))
+            : Math.max(4, Math.min(baseLeft, Math.max(4, drawerWidth - width - 4)))
           const bottom = Math.max(16, window.innerHeight - rect.top + 8)
           const maxHeight = Math.max(180, Math.min(660, window.innerHeight - 24, rect.top - 16))
           setAnchor({ left, width, bottom, maxHeight })

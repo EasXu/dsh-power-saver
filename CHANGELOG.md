@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.12 — 2026-11-24
+
+- The panel now measures the sidebar footer action row and matches its width and left edge, including when the sidebar is resized. Internal fields and labels were tightened to fit.
+
 ## 0.3.11 — 2026-11-24
 
 - Shortened the outside-window status line to `仅在 HH:MM–HH:MM 内检测。` / `Only detected inside HH:MM–HH:MM.`
