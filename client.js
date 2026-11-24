@@ -87,7 +87,6 @@ window.__ModuleLoader__.load({
       'time.clear': '清除',
       'time.done': '完成',
       'time.none': '未设置',
-      'section.windowHint': '留空为全天；跨零点如 22:00–05:00。',
       'section.countJobs': '统计后台任务',
       'unit.minute': '分钟',
       'unit.second': '秒',
@@ -178,7 +177,6 @@ window.__ModuleLoader__.load({
       'time.clear': 'Clear',
       'time.done': 'Done',
       'time.none': 'Not set',
-      'section.windowHint': 'Empty = all day; across midnight, e.g. 22:00–05:00.',
       'section.countJobs': 'Count background jobs',
       'unit.minute': 'min',
       'unit.second': 's',
@@ -230,7 +228,7 @@ window.__ModuleLoader__.load({
 .psb-title{flex:1;min-width:0;font-size:14px;font-weight:500;line-height:20px}
 .psb-close{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:none;border-radius:8px;background:transparent;color:var(--dsw-alias-label-secondary);cursor:pointer}
 @media (hover:hover){.psb-close:hover{background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}}
-.psb-body{flex:1;min-height:0;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.psb-body{flex:1;min-height:0;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
 .psb-status{display:flex;align-items:flex-start;gap:10px}
 .psb-status .psb-dot{margin-top:6px;flex:none}
 .psb-statusText{flex:1;min-width:0}
@@ -245,22 +243,20 @@ window.__ModuleLoader__.load({
 .psb-row:first-child{border-top:none;padding-top:2px}
 .psb-rowText{flex:1;min-width:0}
 .psb-labelText{font-size:13px;font-weight:500;line-height:1.5}
-.psb-hintText{margin-top:3px;font-size:12px;line-height:1.6;color:var(--dsw-alias-label-secondary)}
-.psb-control{flex:0 1 200px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
+.psb-control{flex:0 1 170px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
 .psb-control > :only-child{grid-column:3}
 .psb-control > :only-child:not(.psb-switch){width:100%}
 .psb-control > .psb-switch{justify-self:end}
-.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
+.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;padding:0 5px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
 .psb-selectField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-selectField:disabled{opacity:.5;cursor:default}
 .psb-selectValue{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-.psb-selectChevron{position:absolute;right:6px;top:50%;transform:translateY(-50%);flex:none;width:11px;height:11px;color:var(--dsw-alias-label-secondary);pointer-events:none}
+.psb-selectChevron{position:absolute;right:4px;top:50%;transform:translateY(-50%);flex:none;width:10px;height:10px;color:var(--dsw-alias-label-secondary);pointer-events:none}
 .psb-menu{position:fixed;z-index:50;padding:2px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
-.psb-menuItem{display:flex;align-items:center;justify-content:space-between;gap:4px;width:100%;height:30px;padding:0 6px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
+.psb-menuItem{display:flex;align-items:center;justify-content:flex-start;gap:4px;width:100%;height:30px;padding:0 6px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
 .psb-menuItem:hover,.psb-menuItem:focus-visible{outline:none;background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-menuItem[data-selected]{color:var(--dsw-alias-brand-primary);font-weight:500;background:var(--dsw-alias-bg-layer-1)}
 .psb-menuLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.psb-menuCheck{flex:none;color:var(--dsw-alias-brand-primary)}
 .psb-field{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;min-width:0;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
 .psb-field:focus-within{border-color:var(--dsw-alias-brand-primary)}
 .psb-fieldInput{flex:none;width:4.5ch;height:100%;padding:0;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;outline:none;text-align:right}
@@ -432,12 +428,6 @@ window.__ModuleLoader__.load({
         h('path', { d: 'M6 9l6 6 6-6', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }))
     }
 
-    /** Check glyph for the selected menu option. */
-    function CheckIcon() {
-      return h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': true, className: 'psb-menuCheck' },
-        h('path', { d: 'M5 12.5l4.5 4.5L19 7.5', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }))
-    }
-
     /** Pad a clock part. */
     function pad2(value) {
       return String(value).padStart(2, '0')
@@ -568,8 +558,7 @@ window.__ModuleLoader__.load({
           title: t(`action.${option}`),
           onClick: () => onSelect(option),
         },
-        h('span', { className: 'psb-menuLabel' }, t(`action.${option}`)),
-        selected ? h(CheckIcon) : null)
+        h('span', { className: 'psb-menuLabel' }, t(`action.${option}`)))
       }))
     }
 
@@ -587,11 +576,10 @@ window.__ModuleLoader__.load({
     }
 
     /** A labelled form row. */
-    function Row({ label, hint, children }) {
+    function Row({ label, children }) {
       return h('div', { className: 'psb-row' },
         h('div', { className: 'psb-rowText' },
-          h('div', { className: 'psb-labelText' }, label),
-          hint ? h('div', { className: 'psb-hintText' }, hint) : null),
+          h('div', { className: 'psb-labelText' }, label)),
         h('div', { className: 'psb-control' }, children))
     }
 
@@ -717,7 +705,7 @@ window.__ModuleLoader__.load({
           const maxWidth = drawerWidth === null
             ? window.innerWidth - 24
             : Math.min(window.innerWidth - 24, Math.max(260, drawerWidth - 16))
-          const width = Math.min(340, maxWidth)
+          const width = Math.min(300, maxWidth)
           const left = drawerWidth === null
             ? Math.max(8, Math.min(rect.left, window.innerWidth - width - 12))
             : Math.max(8, Math.min(rect.left, Math.max(8, drawerWidth - width - 8)))
@@ -1015,7 +1003,7 @@ window.__ModuleLoader__.load({
                     onChange: event => editNumeric(event, 0, 1800, value => edit('countdownSeconds', value)),
                   }),
                   h('span', { className: 'psb-fieldUnit' }, t('unit.second')))),
-              h(Row, { label: t('section.window'), hint: t('section.windowHint') },
+              h(Row, { label: t('section.window') },
                 h('button', {
                   type: 'button',
                   className: 'psb-timeField',

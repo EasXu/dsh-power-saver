@@ -2,6 +2,11 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.7 — 2026-11-24
+
+- Removed the active-window hint line from the panel; the README keeps the rule.
+- Narrowed the panel from 340px to 300px and the field column from 200px to 170px. Alignment, centred content, and the equal-width action buttons are unchanged; the action menu still matches its field.
+
 ## 0.3.6 — 2026-11-24
 
 - Narrowed the sidebar panel from 400px to 340px. Field and button dimensions, alignment, centred content, and the action-menu width are unchanged.
