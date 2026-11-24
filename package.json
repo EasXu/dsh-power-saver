@@ -1,6 +1,6 @@
 {
   "name": "dsh-power-saver",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Shut down, hibernate, or lock this computer once every DeepSeek Harness session and background job has finished.",
   "license": "MIT",
   "author": "EastonXu (https://github.com/EasXu)",

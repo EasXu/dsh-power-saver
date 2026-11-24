@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.2 — 2026-11-24
+
+- The action menu, idle field, and countdown field now use the same width as the end-time field and align vertically with it. The time row keeps its two equal fields.
+
 ## 0.3.1 — 2026-11-24
 
 - All form controls share one right-aligned column: the action menu, number fields with inline units, time fields, and the background-jobs switch line up with the same height and width.
