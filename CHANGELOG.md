@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.14 — 2026-11-24
+
+- Unified the time picker with the action menu: same menu surface, border, radius, shadow, hover and selected tokens; removed the inset column background and selected outline, and added a divider above the footer.
+
 ## 0.3.13 — 2026-11-24
 
 - Compressed the time picker from 200px to 150px (matching the field column): shorter rows, smaller labels and footer buttons, anchored to the whole time row.
