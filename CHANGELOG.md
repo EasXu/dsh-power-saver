@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.6 — 2026-11-24
+
+- Narrowed the sidebar panel from 400px to 340px. Field and button dimensions, alignment, centred content, and the action-menu width are unchanged.
+
 ## 0.3.5 — 2026-11-24
 
 - The action menu now uses exactly the field's width and aligns with its left and right edges.

@@ -287,8 +287,8 @@ window.__ModuleLoader__.load({
 .psb-knob{position:absolute;top:3px;left:3px;display:block;width:16px;height:16px;border-radius:50%;background:var(--dsw-alias-bg-layer-1);transition:transform .15s ease}
 .psb-switch.is-on .psb-knob{transform:translateX(16px)}
 .psb-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.psb-actions .psb-btn{flex:1 1 70px;min-width:0;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.psb-btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer}
+.psb-actions .psb-btn{flex:1 1 70px;min-width:0;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px}
+.psb-btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
 .psb-btn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-btn:disabled{opacity:.5;cursor:default}
 .psb-btn.primary{background:var(--dsw-alias-bg-layer-2);border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary);font-weight:500}
@@ -717,7 +717,7 @@ window.__ModuleLoader__.load({
           const maxWidth = drawerWidth === null
             ? window.innerWidth - 24
             : Math.min(window.innerWidth - 24, Math.max(260, drawerWidth - 16))
-          const width = Math.min(400, maxWidth)
+          const width = Math.min(340, maxWidth)
           const left = drawerWidth === null
             ? Math.max(8, Math.min(rect.left, window.innerWidth - width - 12))
             : Math.max(8, Math.min(rect.left, Math.max(8, drawerWidth - width - 8)))
