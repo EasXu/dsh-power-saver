@@ -222,7 +222,7 @@ window.__ModuleLoader__.load({
 .psb-rail .psb-trigger{width:36px;height:36px;justify-content:center;padding:0;border-radius:50%}
 .psb-rail .psb-label,.psb-rail .psb-hint{display:none}
 .psb-rail .psb-dot{position:absolute;top:3px;right:3px;width:7px;height:7px;box-shadow:0 0 0 2px var(--dsw-specific-sidebar-fill)}
-.psb-panel{position:fixed;isolation:isolate;z-index:40;display:flex;flex-direction:column;max-height:min(72vh,660px);overflow:hidden;border:1px solid var(--dsw-alias-border-l1);border-radius:12px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));backdrop-filter:var(--dsw-menu-backdrop-filter,none);box-shadow:var(--dsw-elevation-prominent,0 14px 36px color-mix(in srgb,var(--dsw-alias-label-primary) 22%,transparent));color:var(--dsw-alias-label-primary)}
+.psb-panel{position:fixed;isolation:isolate;z-index:40;box-sizing:border-box;display:flex;flex-direction:column;max-height:min(72vh,660px);overflow:hidden;border:1px solid var(--dsw-alias-border-l1);border-radius:12px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));backdrop-filter:var(--dsw-menu-backdrop-filter,none);box-shadow:var(--dsw-elevation-prominent,0 14px 36px color-mix(in srgb,var(--dsw-alias-label-primary) 22%,transparent));color:var(--dsw-alias-label-primary)}
 .psb-panel:focus{outline:none}
 .psb-header{flex:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 12px;border-bottom:1px solid var(--dsw-alias-border-l1)}
 .psb-title{flex:1;min-width:0;font-size:14px;font-weight:500;line-height:20px}
@@ -243,23 +243,23 @@ window.__ModuleLoader__.load({
 .psb-row:first-child{border-top:none;padding-top:2px}
 .psb-rowText{flex:1;min-width:0}
 .psb-labelText{font-size:13px;font-weight:500;line-height:1.5}
-.psb-control{flex:0 1 170px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
+.psb-control{flex:0 1 165px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
 .psb-control > :only-child{grid-column:3}
 .psb-control > :only-child:not(.psb-switch){width:100%}
 .psb-control > .psb-switch{justify-self:end}
-.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;padding:0 5px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
+.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;padding:0 4px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer;box-sizing:border-box}
 .psb-selectField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-selectField:disabled{opacity:.5;cursor:default}
 .psb-selectValue{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-.psb-selectChevron{position:absolute;right:4px;top:50%;transform:translateY(-50%);flex:none;width:10px;height:10px;color:var(--dsw-alias-label-secondary);pointer-events:none}
+.psb-selectChevron{position:absolute;right:3px;top:50%;transform:translateY(-50%);flex:none;width:9px;height:9px;color:var(--dsw-alias-label-secondary);pointer-events:none}
 .psb-menu{position:fixed;z-index:50;padding:2px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);box-sizing:border-box}
-.psb-menuItem{display:flex;align-items:center;justify-content:flex-start;gap:4px;width:100%;height:30px;padding:0 6px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
+.psb-menuItem{display:flex;align-items:center;justify-content:flex-start;gap:4px;width:100%;height:30px;padding:0 5px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;text-align:left;cursor:pointer}
 .psb-menuItem:hover,.psb-menuItem:focus-visible{outline:none;background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-menuItem[data-selected]{color:var(--dsw-alias-brand-primary);font-weight:500;background:var(--dsw-alias-bg-layer-1)}
 .psb-menuLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.psb-field{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;min-width:0;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
+.psb-field{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;min-width:0;height:30px;padding:0 5px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
 .psb-field:focus-within{border-color:var(--dsw-alias-brand-primary)}
-.psb-fieldInput{flex:none;width:4.5ch;height:100%;padding:0;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;outline:none;text-align:right}
+.psb-fieldInput{flex:none;width:4ch;height:100%;padding:0;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;outline:none;text-align:right}
 .psb-fieldUnit{flex:none;font-size:12px;color:var(--dsw-alias-label-secondary)}
 .psb-timeField{display:inline-flex;align-items:center;justify-content:center;width:100%;min-width:0;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer;box-sizing:border-box}
 .psb-timeField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
@@ -705,7 +705,7 @@ window.__ModuleLoader__.load({
           const maxWidth = drawerWidth === null
             ? window.innerWidth - 24
             : Math.min(window.innerWidth - 24, Math.max(260, drawerWidth - 16))
-          const width = Math.min(300, maxWidth)
+          const width = Math.min(280, maxWidth)
           const left = drawerWidth === null
             ? Math.max(8, Math.min(rect.left, window.innerWidth - width - 12))
             : Math.max(8, Math.min(rect.left, Math.max(8, drawerWidth - width - 8)))

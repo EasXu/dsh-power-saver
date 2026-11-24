@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.8 — 2026-11-24
+
+- Panel width is now 280px, matching the default DSH left sidebar width. The field column is 165px; alignment, centred content, equal-width buttons, and the field-width action menu are preserved.
+
 ## 0.3.7 — 2026-11-24
 
 - Removed the active-window hint line from the panel; the README keeps the rule.
