@@ -2,6 +2,11 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.17 — 2026-11-24
+
+- Removed the disabled-state explanation line and compacted the running summary to non-zero counts only, e.g. `运行中：1 会话 · 2 任务`.
+- Shortened the enable confirmation to a short title plus the plan line; the safety note stays in the footer.
+
 ## 0.3.16 — 2026-11-24
 
 - Shortened the outside-window detail to `{window} 内检测。` / `Only inside {window}.` so it stays on one line.

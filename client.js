@@ -39,7 +39,6 @@ window.__ModuleLoader__.load({
       'panel.close': '关闭',
       'panel.loading': '正在读取状态…',
       'status.off': '已关闭',
-      'status.offDetail': '不会自动执行任何电源操作。',
       'status.idle': '已启用 · 等待项目运行',
       'status.running': '已启用 · 项目运行中',
       'status.waiting': '已启用 · 等待项目结束',
@@ -50,7 +49,9 @@ window.__ModuleLoader__.load({
       'status.executingDetail': '正在刷新会话日志并执行操作，此时无法取消。',
       'status.outside': '已启用 · 不在生效时段',
       'status.outsideDetail': '{window} 内检测。',
-      'status.runningLine': '正在运行：{agents} 个会话、{jobs} 个后台任务',
+      'status.runningLine': '运行中：{parts}',
+      'status.agentPart': '{count} 会话',
+      'status.jobPart': '{count} 任务',
       'status.idleLine': '所有项目已结束，已空闲 {time}',
       'status.lastFailed': '上次执行失败：{detail}',
       'status.lastCancelled': '上次计划已取消：{reason}',
@@ -63,7 +64,7 @@ window.__ModuleLoader__.load({
       'duration.seconds': '{n} 秒',
       'duration.minutes': '{n} 分钟',
       'duration.minutesSeconds': '{m} 分 {s} 秒',
-      'summary.line': '计划：{action} · {window} · {timing}',
+      'summary.line': '{action} · {window} · {timing}',
       'summary.idleThen': '空闲 {idle} 后倒计时 {countdown}',
       'summary.idleOnly': '空闲 {idle} 后立即执行',
       'summary.countdownOnly': '项目结束后倒计时 {countdown}',
@@ -108,8 +109,8 @@ window.__ModuleLoader__.load({
       'error.cancel': '取消失败，倒计时可能仍在进行：{detail}',
       'error.test': '试运行未能启动：{detail}',
       'error.hint': '如果一直失败，请刷新页面后重试。',
-      'confirm.title': '确认启用自动电源操作？',
-      'confirm.body': '启用后会按这份计划执行：{summary}。关机或休眠会强制关闭其他程序；如果还不放心，可以先把动作改成「仅提示」再启用。',
+      'confirm.title': '确认启用？',
+      'confirm.body': '{summary}',
       'confirm.ok': '确认启用',
       'confirm.cancel': '暂不启用',
       'hint.actionSafety': '关机/休眠会关闭其他程序。',
@@ -129,7 +130,6 @@ window.__ModuleLoader__.load({
       'panel.close': 'Close',
       'panel.loading': 'Reading status…',
       'status.off': 'Off',
-      'status.offDetail': 'No power action will be taken.',
       'status.idle': 'On · waiting for a project',
       'status.running': 'On · projects running',
       'status.waiting': 'On · waiting for projects to finish',
@@ -140,7 +140,9 @@ window.__ModuleLoader__.load({
       'status.executingDetail': 'Flushing session logs and performing the action; it cannot be cancelled now.',
       'status.outside': 'On · outside the active window',
       'status.outsideDetail': 'Only inside {window}.',
-      'status.runningLine': 'Running: {agents} sessions, {jobs} background jobs',
+      'status.runningLine': 'Running: {parts}',
+      'status.agentPart': '{count} sessions',
+      'status.jobPart': '{count} jobs',
       'status.idleLine': 'All projects finished; idle for {time}',
       'status.lastFailed': 'Last action failed: {detail}',
       'status.lastCancelled': 'Last plan cancelled: {reason}',
@@ -153,7 +155,7 @@ window.__ModuleLoader__.load({
       'duration.seconds': '{n}s',
       'duration.minutes': '{n} min',
       'duration.minutesSeconds': '{m} min {s}s',
-      'summary.line': 'Plan: {action} · {window} · {timing}',
+      'summary.line': '{action} · {window} · {timing}',
       'summary.idleThen': 'after {idle} idle, a {countdown} countdown',
       'summary.idleOnly': 'after {idle} idle, act immediately',
       'summary.countdownOnly': 'a {countdown} countdown after the work ends',
@@ -198,8 +200,8 @@ window.__ModuleLoader__.load({
       'error.cancel': 'Cancel failed; a countdown may still be running: {detail}',
       'error.test': 'The dry run could not start: {detail}',
       'error.hint': 'If this keeps failing, reload the page and try again.',
-      'confirm.title': 'Enable automatic power actions?',
-      'confirm.body': 'Enabling applies this plan: {summary}. Shutting down or hibernating force-closes other applications; if unsure, change the action to "No action" first.',
+      'confirm.title': 'Enable automatic actions?',
+      'confirm.body': '{summary}',
       'confirm.ok': 'Enable',
       'confirm.cancel': 'Not now',
       'hint.actionSafety': 'Shut down or hibernate closes other apps.',
@@ -593,7 +595,10 @@ window.__ModuleLoader__.load({
       const settings = data.settings
       const running = state.runningAgents + state.runningJobs
       const lines = []
-      const runningLine = fill(t('status.runningLine'), { agents: state.runningAgents, jobs: state.runningJobs })
+      const parts = []
+      if (state.runningAgents > 0) parts.push(fill(t('status.agentPart'), { count: state.runningAgents }))
+      if (state.runningJobs > 0) parts.push(fill(t('status.jobPart'), { count: state.runningJobs }))
+      const runningLine = fill(t('status.runningLine'), { parts: parts.join(' · ') })
       let tone = 'on'
       let title = t('status.idle')
 
@@ -608,7 +613,6 @@ window.__ModuleLoader__.load({
       } else if (!state.enabled) {
         tone = ''
         title = t('status.off')
-        lines.push(t('status.offDetail'))
         if (running > 0) lines.push(runningLine)
       } else if (state.phase === 'outside') {
         tone = ''
