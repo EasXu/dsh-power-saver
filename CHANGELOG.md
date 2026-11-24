@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.16 — 2026-11-24
+
+- Shortened the outside-window detail to `{window} 内检测。` / `Only inside {window}.` so it stays on one line.
+
 ## 0.3.15 — 2026-11-24
 
 - Reserved the dash column in the field grid so the action, idle, and countdown fields are exactly as wide as the end-time field and share its left edge.
