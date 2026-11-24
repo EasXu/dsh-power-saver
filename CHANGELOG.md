@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.10 — 2026-11-24
+
+- Compressed the panel from 280px to 260px: tighter body padding, a 156px field column, and slightly smaller row labels. Alignment, centred content, equal-width buttons, and the field-width action menu are preserved.
+
 ## 0.3.9 — 2026-11-24
 
 - Shortened the footer tips to two short lines: one for the shutdown/hibernate warning and one for cancellation. The DSH-only scope and quit behaviour remain documented in the README.
