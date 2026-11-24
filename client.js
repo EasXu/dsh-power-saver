@@ -243,11 +243,11 @@ window.__ModuleLoader__.load({
 .psb-row:first-child{border-top:none;padding-top:2px}
 .psb-rowText{flex:1;min-width:0}
 .psb-labelText{font-size:12px;font-weight:500;line-height:1.5}
-.psb-control{flex:0 1 150px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
+.psb-control{flex:0 1 150px;display:grid;grid-template-columns:minmax(0,1fr) 6px minmax(0,1fr);align-items:center;gap:4px}
 .psb-control > :only-child{grid-column:3}
 .psb-control > :only-child:not(.psb-switch){width:100%}
 .psb-control > .psb-switch{justify-self:end}
-.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:30px;padding:0 3px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12.5px;cursor:pointer;box-sizing:border-box}
+.psb-selectField{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;min-width:0;height:30px;padding:0 3px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12.5px;cursor:pointer;box-sizing:border-box}
 .psb-selectField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-selectField:disabled{opacity:.5;cursor:default}
 .psb-selectValue{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
@@ -265,8 +265,10 @@ window.__ModuleLoader__.load({
 .psb-timeField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-timeField:disabled{opacity:.5;cursor:default}
 .psb-timeField[data-empty]{color:var(--dsw-alias-label-secondary)}
+.psb-timeField[data-active]{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary)}
 .psb-timePop{position:fixed;z-index:50;display:flex;flex-direction:column;gap:4px;padding:4px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-specific-menu,var(--dsw-alias-bg-overlay));box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);color:var(--dsw-alias-label-primary);box-sizing:border-box}
 .psb-timeCols{display:flex;gap:4px}
+.psb-timeHeading{padding:1px 4px;font-size:11px;font-weight:500;color:var(--dsw-alias-label-secondary)}
 .psb-timeCol{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .psb-timeColTitle{padding:2px 4px;font-size:10.5px;color:var(--dsw-alias-label-secondary)}
 .psb-timeList{position:relative;display:flex;flex-direction:column;gap:1px;height:150px;padding:0;overflow-y:auto;border-radius:6px}
@@ -276,7 +278,7 @@ window.__ModuleLoader__.load({
 .psb-timeFoot{display:flex;align-items:center;gap:4px;padding-top:4px;border-top:1px solid var(--dsw-alias-border-l1)}
 .psb-timeFoot .psb-btn{height:24px;padding:0 6px;font-size:11.5px}
 .psb-timeSpacer{flex:1}
-.psb-suffix{flex:none;font-size:12px;color:var(--dsw-alias-label-secondary)}
+.psb-suffix{flex:none;font-size:10px;text-align:center;color:var(--dsw-alias-label-secondary)}
 .psb-switch{width:38px;height:22px;border:none;border-radius:11px;background:var(--dsw-alias-border-l2);position:relative;cursor:pointer;transition:background .15s ease;flex:none;padding:0}
 .psb-switch.is-on{background:var(--dsw-alias-brand-primary)}
 .psb-switch:disabled{opacity:.5;cursor:default}
@@ -505,6 +507,7 @@ window.__ModuleLoader__.load({
         role: 'dialog',
         'aria-label': t('time.title'),
       },
+      h('div', { className: 'psb-timeHeading' }, which === 'start' ? t('section.windowStart') : t('section.windowEnd')),
       h('div', { className: 'psb-timeCols' },
         column(t('time.hour'), hourList, hours, hour, nextHour => emit(nextHour, minute)),
         column(t('time.minute'), minuteList, minutes, minute, nextMinute => emit(hour, nextMinute))),
@@ -891,7 +894,7 @@ window.__ModuleLoader__.load({
         const control = event.currentTarget.closest('.psb-control')
         const rect = (control ?? event.currentTarget).getBoundingClientRect()
         const width = Math.min(150, Math.round(rect.width))
-        const height = 216
+        const height = 236
         const left = Math.max(4, Math.min(rect.left, window.innerWidth - width - 8))
         const top = rect.bottom + 6 + height <= window.innerHeight - 8
           ? rect.bottom + 6
@@ -1016,6 +1019,7 @@ window.__ModuleLoader__.load({
                   'data-psb-timefield': 'start',
                   'aria-label': `${t('section.window')} — ${t('section.windowStart')}`,
                   'data-empty': draft?.windowStart ? undefined : true,
+                  'data-active': picker !== null && picker.which === 'start' ? true : undefined,
                   title: t('time.pick'),
                   disabled: busy || draft === null,
                   onClick: event => openTimeField('start', event),
@@ -1027,6 +1031,7 @@ window.__ModuleLoader__.load({
                   'data-psb-timefield': 'end',
                   'aria-label': `${t('section.window')} — ${t('section.windowEnd')}`,
                   'data-empty': draft?.windowEnd ? undefined : true,
+                  'data-active': picker !== null && picker.which === 'end' ? true : undefined,
                   title: t('time.pick'),
                   disabled: busy || draft === null,
                   onClick: event => openTimeField('end', event),

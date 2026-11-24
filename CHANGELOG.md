@@ -2,6 +2,11 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.15 — 2026-11-24
+
+- Reserved the dash column in the field grid so the action, idle, and countdown fields are exactly as wide as the end-time field and share its left edge.
+- The time picker now names the field it is editing (start/end) and highlights that field with the brand border.
+
 ## 0.3.14 — 2026-11-24
 
 - Unified the time picker with the action menu: same menu surface, border, radius, shadow, hover and selected tokens; removed the inset column background and selected outline, and added a divider above the footer.
