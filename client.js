@@ -112,8 +112,8 @@ window.__ModuleLoader__.load({
       'confirm.body': '启用后会按这份计划执行：{summary}。关机或休眠会强制关闭其他程序；如果还不放心，可以先把动作改成「仅提示」再启用。',
       'confirm.ok': '确认启用',
       'confirm.cancel': '暂不启用',
-      'hint.actionSafety': '关机将强制关闭其他程序；休眠需系统已启用休眠。',
-      'hint.footer': '取消：上方按钮或发消息；仅统计 DSH 内工作，退出 DSH 即取消。',
+      'hint.actionSafety': '关机/休眠会关闭其他程序。',
+      'hint.footer': '取消：点按钮或发消息。',
     }
 
     const EN = {
@@ -202,8 +202,8 @@ window.__ModuleLoader__.load({
       'confirm.body': 'Enabling applies this plan: {summary}. Shutting down or hibernating force-closes other applications; if unsure, change the action to "No action" first.',
       'confirm.ok': 'Enable',
       'confirm.cancel': 'Not now',
-      'hint.actionSafety': 'Shut down force-closes other apps; hibernation must be enabled in the OS.',
-      'hint.footer': 'Cancel: the button above or send a message; counts DSH work only and stops with DSH.',
+      'hint.actionSafety': 'Shut down or hibernate closes other apps.',
+      'hint.footer': 'Cancel: the button or any message.',
     }
 
     const CSS = `
