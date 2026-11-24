@@ -29,7 +29,7 @@ Long jobs often run before bed or while you are away. You do not want to keep wa
 - **Work-aware** — only arms after it has observed a running DSH session or background job, so simply enabling it never powers off an idle machine.
 - **All projects, not just one** — a session, a subagent, a workflow child, or a background job that is still running keeps the timer waiting.
 - **Countdown with cancel** — a configurable grace period; the sidebar row shows `mm:ss`, the panel shows a large timer, and the countdown can be cancelled from either place. Starting any new DSH work also cancels it.
-- **Active window** — optional start/end time (for example `22:00–05:00`, including across midnight); outside the window the run is skipped instead of powering off.
+- **Active window** — optional start/end time (for example `22:00–05:00`, including across midnight). Outside the window the plugin does not detect or time anything; only a run that starts inside the window counts, and a countdown is cancelled when the window ends.
 - **Safe defaults** — the feature is off by default; enabling a destructive action asks for confirmation that names the exact plan; a dry run exercises the whole flow without touching the system.
 - **Honest failure reporting** — if hibernation is not enabled, the panel shows the system's error instead of failing silently.
 - **Local only** — no network access, no telemetry. State is served on loopback `/api/power-saver/*` behind the same trust fence as DSH's own API, and settings live in `$DSH_HOME/power-saver.json`.
@@ -69,7 +69,7 @@ Alternatively, ask a DSH agent to install it from the absolute directory with `p
 | Action | shut down | `shut down`, `hibernate`, `lock the screen`, or `notify only` (dry run) |
 | Idle wait | 10 min | How long every project must stay finished before the countdown starts. `0` starts it immediately (0–720 min) |
 | Countdown | 60 s | Grace period before acting; cancel any time. `0` acts immediately (0–1800 s) |
-| Active window | empty | Both fields empty = all day. If set, fill both; for a window across midnight, start later than end, e.g. `22:00–05:00` |
+| Active window | empty | Both fields empty = all day. If set, fill both; for a window across midnight, start later than end, e.g. `22:00–05:00`. The plugin only detects and times work inside this window |
 | Count background jobs | on | Running DSH background jobs also count as unfinished work |
 
 4. Press **Save settings**. Toggling Enable saves immediately, including any unsaved edits in the panel.
@@ -83,6 +83,15 @@ Alternatively, ask a DSH agent to install it from the absolute directory with `p
 - Sending a message to any session (which starts a run) cancels the plan automatically.
 - Quitting DSH, disabling the plugin, or unloading the bundle cancels it too.
 
+### Active window semantics
+
+When an active window is set, it is a hard boundary rather than a final check:
+
+- Outside the window nothing is detected, timed, armed, or executed.
+- A run that started before the window does **not** count when the window begins, even if it finishes inside the window. Only a run observed starting inside the window arms the scheduler.
+- When the window ends, an armed plan or a running countdown is cancelled. Nothing is executed outside the window.
+- Both time fields must be filled, or both left empty for all day. A window across midnight is written as start later than end, e.g. `22:00–05:00`.
+
 ### What happens at zero
 
 1. Live session logs are flushed (up to 3 seconds) so the last events are durable.
@@ -92,7 +101,7 @@ Alternatively, ask a DSH agent to install it from the absolute directory with `p
 ## How it works
 
 - The Host half runs inside the DSH process. It tracks `agent/status` and `agent/disposed`, cross-checks `agents.list()` on a one-second clock, and optionally counts running `jobs.list()` entries.
-- The first observed run arms the scheduler. After the last activity ends, the idle timer runs; when it expires inside the active window, the countdown begins.
+- The first run that starts while the plugin is enabled and inside the active window arms the scheduler. After the last activity ends, the idle timer runs; when it expires inside the window, the countdown begins.
 - The browser half is a plain CommonJS client module: a `sidebar.footer.action` entry plus a `shell.overlay` fallback. It reads state from `/api/power-saver/status` and writes only through `/config`, `/cancel`, and `/test`.
 - The settings file is written atomically to `$DSH_HOME/power-saver.json`.
 
@@ -102,7 +111,8 @@ Alternatively, ask a DSH agent to install it from the absolute directory with `p
 - The schedule lives inside the DSH process: quitting DSH cancels it. There is no OS-level persistent job.
 - Shut down force-closes other applications, including unsaved work in them.
 - Hibernation requires it to be enabled by the OS. On macOS the "hibernate" entry maps to `pmset sleepnow` and "lock" to display sleep, because those are the closest native commands.
-- The active window is evaluated when the countdown would start; if the idle wait ends outside the window, that run is skipped and reported as skipped.
+- Outside the active window nothing is detected or timed. A run already in progress when the window begins is not counted; a countdown is cancelled when the window ends.
+- The plugin is enabled or DSH starts while a run is already in progress: that run is not counted unless it starts a new turn inside the window.
 
 ## Development
 

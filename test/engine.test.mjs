@@ -18,8 +18,13 @@ const BASE = Object.freeze({
 const clockAt = (hour, minute) => new Date(2026, 0, 1, hour, minute, 0).getTime()
 
 /** Build an engine with a fake clock and fake DSH services. */
-function setup(settings = BASE) {
-  const state = { agents: [], jobs: [], clock: clockAt(12, 0), saved: { ...settings } }
+function setup(settings = BASE, options = {}) {
+  const state = {
+    agents: [...(options.agents ?? [])],
+    jobs: [],
+    clock: options.clock ?? clockAt(12, 0),
+    saved: { ...settings },
+  }
   const listeners = new Map()
   const ctx = {
     get(name) {
@@ -43,17 +48,17 @@ function setup(settings = BASE) {
     saveSettings: next => { state.saved = next },
     log: () => {},
   }).start()
-  const emit = (name, payload) => listeners.get(name)?.(payload)
   return {
     engine,
     state,
     startWork() {
       state.agents.push({ id: 'a1', status: 'running' })
-      emit('agent/status', { agent: { id: 'a1' }, status: 'running' })
+      // The Host registers this listener in `apply`; the test calls the hook.
+      engine._note('a1', 'running')
     },
     stopWork() {
       if (state.agents[0] !== undefined) state.agents[0].status = 'idle'
-      emit('agent/status', { agent: { id: 'a1' }, status: 'idle' })
+      engine._note('a1', 'idle')
     },
     advance(milliseconds) {
       state.clock += milliseconds
@@ -192,4 +197,56 @@ test('running background jobs keep the schedule waiting', async () => {
   await h.engine.tick()
   await h.engine.tick()
   assert.equal(h.engine.status().phase, 'countdown')
+})
+
+test('work that started before the window does not count when the window begins', async () => {
+  const settings = { ...BASE, windowStart: '22:00', windowEnd: '05:00' }
+  const h = setup(settings, { clock: clockAt(21, 50) })
+  h.startWork()
+  await h.engine.tick()
+  assert.equal(h.engine.status().phase, 'outside')
+  assert.equal(h.engine.status().armed, false)
+
+  // The same run continues past 22:00 and ends inside the window.
+  h.advance(15 * 60 * 1000)
+  h.stopWork()
+  await h.engine.tick()
+  await h.engine.tick()
+  assert.equal(h.engine.status().phase, 'idle')
+  assert.equal(h.engine.status().armed, false)
+  assert.notEqual(h.engine.status().lastOutcome, 'countdown-started')
+})
+
+test('a run that starts inside the window arms the scheduler', async () => {
+  const settings = { ...BASE, windowStart: '22:00', windowEnd: '05:00' }
+  const h = setup(settings, { clock: clockAt(22, 5) })
+  h.startWork()
+  await h.engine.tick()
+  assert.equal(h.engine.status().phase, 'armed')
+  assert.equal(h.engine.status().armed, true)
+})
+
+test('the window ending cancels a running countdown', async () => {
+  const settings = { ...BASE, windowStart: '22:00', windowEnd: '05:00' }
+  const h = setup(settings, { clock: clockAt(4, 55) })
+  h.startWork()
+  await h.engine.tick()
+  h.stopWork()
+  await h.engine.tick()
+  await h.engine.tick()
+  assert.equal(h.engine.status().phase, 'countdown')
+
+  h.advance(10 * 60 * 1000)
+  await h.engine.tick()
+  const state = h.engine.status()
+  assert.equal(state.phase, 'outside')
+  assert.equal(state.armed, false)
+  assert.equal(state.lastOutcome, 'cancelled-by-window')
+})
+
+test('a run already active at activation does not arm the scheduler', async () => {
+  const h = setup(BASE, { agents: [{ id: 'a1', status: 'running' }] })
+  await h.engine.tick()
+  assert.equal(h.engine.status().armed, false)
+  assert.equal(h.engine.status().runningAgents, 1)
 })

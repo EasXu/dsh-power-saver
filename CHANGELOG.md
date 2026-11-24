@@ -2,6 +2,13 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.0 — 2026-11-24
+
+- The active window now gates the whole feature: outside it nothing is detected, timed, armed, or executed.
+- Only a run observed starting inside the window arms the scheduler. A project already running when the window begins no longer counts, even if it ends inside the window.
+- An armed plan or running countdown is cancelled when the window ends.
+- The sidebar panel is more compact: per-field hint paragraphs are gone, leaving one short window hint, one safety line, and one footer line.
+
 ## 0.2.0 — 2026-11-19
 
 - Moved the entry point into the left sidebar footer (`sidebar.footer.action`); the separate Settings page is gone.

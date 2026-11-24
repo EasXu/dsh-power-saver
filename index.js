@@ -371,7 +371,6 @@ export function createEngine(ctx, options = {}) {
   /** @type {{ kind: 'action' | 'test', action?: string, endsAt: number, totalMs: number } | null} */
   let countdown = null
   let last = { action: '', outcome: '', at: 0, detail: '' }
-  let skipped = ''
   let executing = false
 
   /** Live running agent ids, combining tracked events with the live registry. */
@@ -452,8 +451,6 @@ export function createEngine(ctx, options = {}) {
   async function tick() {
     if (executing) return
     const at = now()
-    const activity = measure()
-    const active = activity.agents + activity.jobs > 0
 
     if (countdown !== null && countdown.kind === 'test') {
       if (at >= countdown.endsAt) {
@@ -470,9 +467,25 @@ export function createEngine(ctx, options = {}) {
       armed = false
       idleSince = null
       countdown = null
-      skipped = ''
       return
     }
+
+    // Outside the active window nothing is detected, timed, or executed.
+    // A run that began before the window does not carry into it either: only
+    // a run observed starting inside the window arms the scheduler (see note).
+    if (!insideWindow(settings, new Date(at))) {
+      if (countdown !== null) {
+        last = { action: countdown.action ?? settings.action, outcome: 'cancelled-by-window', at, detail: '生效时段结束，倒计时已取消' }
+        log('countdown cancelled: active window ended')
+      }
+      countdown = null
+      armed = false
+      idleSince = null
+      return
+    }
+
+    const activity = measure()
+    const active = activity.agents + activity.jobs > 0
 
     if (active) {
       if (countdown !== null) {
@@ -481,9 +494,10 @@ export function createEngine(ctx, options = {}) {
         last = { action, outcome: 'cancelled-by-work', at, detail: '有新的项目开始运行，倒计时已取消' }
         log('countdown cancelled: work resumed')
       }
-      armed = true
-      idleSince = null
-      skipped = ''
+      // Do not arm here: an already-running project that started before the
+      // window must not be counted. Arming happens on a running event inside
+      // the window in `note`.
+      if (armed) idleSince = null
       return
     }
 
@@ -501,14 +515,6 @@ export function createEngine(ctx, options = {}) {
 
     if (at - idleSince < settings.idleMinutes * 60_000) return
 
-    if (!insideWindow(settings, new Date(at))) {
-      skipped = 'outside-window'
-      armed = false
-      idleSince = null
-      return
-    }
-
-    skipped = ''
     const totalMs = settings.countdownSeconds * 1000
     if (totalMs <= 0) {
       await execute(settings.action)
@@ -524,10 +530,12 @@ export function createEngine(ctx, options = {}) {
     const at = now()
     const activity = measure()
     const pending = countdown
+    const within = insideWindow(settings, new Date(at))
     let phase
     if (executing) phase = 'executing'
     else if (pending !== null) phase = pending.kind === 'test' ? 'test' : 'countdown'
     else if (!settings.enabled) phase = 'disabled'
+    else if (!within) phase = 'outside'
     else if (armed) phase = idleSince === null ? 'armed' : 'waiting-idle'
     else phase = 'idle'
     return {
@@ -535,7 +543,6 @@ export function createEngine(ctx, options = {}) {
       action: settings.action,
       phase,
       armed,
-      skipped,
       runningAgents: activity.agents,
       runningJobs: activity.jobs,
       idleSeconds: idleSince === null ? null : Math.max(0, Math.floor((at - idleSince) / 1000)),
@@ -543,7 +550,7 @@ export function createEngine(ctx, options = {}) {
       countdownEndsAt: pending === null ? null : pending.endsAt,
       countdownSecondsLeft: pending === null ? null : Math.max(0, Math.ceil((pending.endsAt - at) / 1000)),
       countdownKind: pending === null ? null : pending.kind,
-      insideWindow: insideWindow(settings, new Date(at)),
+      insideWindow: within,
       lastAction: last.action,
       lastOutcome: last.outcome,
       lastAt: last.at,
@@ -587,7 +594,6 @@ export function createEngine(ctx, options = {}) {
     countdown = null
     armed = false
     idleSince = null
-    skipped = ''
     last = { action: settings.action, outcome: 'cancelled', at: now(), detail: reason === 'user' ? '用户取消了自动关机' : reason }
     return { ok: true, cancelled: wasCounting || wasArmed, wasCounting }
   }
@@ -606,16 +612,17 @@ export function createEngine(ctx, options = {}) {
   }
 
   /**
-   * Record an observed agent transition. Arming on the event itself keeps a
-   * run that starts and ends between two clock ticks from being missed, and
-   * cancels a pending countdown the moment new work appears.
+   * Record an observed agent transition. Only a run that starts while the
+   * plugin is enabled and inside the active window arms the scheduler; work
+   * that was already running when the window began never counts.
    */
   function note(agentId, status) {
     if (status === 'running') {
       running.add(agentId)
+      if (!settings.enabled) return
+      if (!insideWindow(settings, new Date(now()))) return
       armed = true
       idleSince = null
-      skipped = ''
       if (countdown !== null && countdown.kind === 'action') {
         last = { action: countdown.action ?? settings.action, outcome: 'cancelled-by-work', at: now(), detail: '有新的项目开始运行，倒计时已取消' }
         countdown = null
@@ -626,10 +633,9 @@ export function createEngine(ctx, options = {}) {
     running.delete(agentId)
   }
 
-  /** Seed from the live registry so a restart mid-run does not arm needlessly. */
+  /** Seed the live registry for accurate counts; it never arms the scheduler. */
   function start() {
     for (const agent of runningAgentIds()) running.add(agent)
-    if (running.size > 0) armed = true
     return engine
   }
 

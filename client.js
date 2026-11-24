@@ -34,29 +34,26 @@ window.__ModuleLoader__.load({
       'trigger.armed': '等待结束',
       'trigger.idle': '空闲等待',
       'trigger.executing': '执行中',
+      'trigger.outside': '时段外',
       'panel.title': '自动关机 / 休眠',
       'panel.close': '关闭',
       'panel.loading': '正在读取状态…',
       'status.off': '已关闭',
       'status.offDetail': '不会自动执行任何电源操作。',
       'status.idle': '已启用 · 等待项目运行',
-      'status.idleDetail': '开始运行项目后，这里会显示进度。',
       'status.running': '已启用 · 项目运行中',
       'status.waiting': '已启用 · 等待项目结束',
-      'status.waitingDetail': '所有项目都已结束，开始计算空闲时间。',
       'status.idleWait': '已启用 · 空闲等待中',
       'status.countdown': '倒计时中',
       'status.test': '试运行中',
       'status.executing': '正在执行…',
       'status.executingDetail': '正在刷新会话日志并执行操作，此时无法取消。',
+      'status.outside': '已启用 · 不在生效时段',
+      'status.outsideDetail': '只在 {window} 内检测项目并计时，当前不检测。',
       'status.runningLine': '正在运行：{agents} 个会话、{jobs} 个后台任务',
       'status.idleLine': '所有项目已结束，已空闲 {time}',
-      'status.windowLine': '当前不在生效时段 {start}–{end} 内',
-      'status.skipped': '上次已跳过：开始倒计时时不在生效时段内',
-      'status.lastExecuted': '上次执行：{action} · {time}',
       'status.lastFailed': '上次执行失败：{detail}',
       'status.lastCancelled': '上次计划已取消：{reason}',
-      'status.lastTest': '上次试运行完成（没有执行系统操作）',
       'countdown.title': '自动关机倒计时',
       'countdown.text': '将执行：{action}',
       'countdown.detail': '所有项目已结束',
@@ -79,11 +76,8 @@ window.__ModuleLoader__.load({
       'action.lock': '锁定屏幕',
       'action.none': '只提示，不执行',
       'section.action': '触发动作',
-      'section.actionHint': '「关机」会强制关闭其他程序；「休眠」需要系统已启用休眠（管理员终端运行 powercfg /hibernate on）。不确定时先用「试运行」或「只提示，不执行」。',
       'section.idle': '空闲等待',
-      'section.idleHint': '所有项目结束后，再观察多久才认为「真的结束了」。0 表示立即开始倒计时（0–720 分钟）。',
       'section.countdown': '执行倒计时',
-      'section.countdownHint': '真正执行前的缓冲时间，期间可以取消。0 表示不等待（0–1800 秒）。',
       'section.window': '生效时段',
       'section.windowStart': '开始时间',
       'section.windowEnd': '结束时间',
@@ -94,9 +88,8 @@ window.__ModuleLoader__.load({
       'time.clear': '清除',
       'time.done': '完成',
       'time.none': '未设置',
-      'section.windowHint': '开始和结束都留空表示全天生效；填写时必须两个都填，点击时间框可直接选择时间。跨零点请让开始晚于结束，例如 22:00–08:00。',
+      'section.windowHint': '留空为全天；跨零点如 22:00–05:00。',
       'section.countJobs': '统计后台任务',
-      'section.countJobsHint': 'DSH 后台任务也算「项目未结束」，避免任务被中断。',
       'unit.minute': '分钟',
       'unit.second': '秒',
       'save': '保存设置',
@@ -121,9 +114,8 @@ window.__ModuleLoader__.load({
       'confirm.body': '启用后会按这份计划执行：{summary}。关机或休眠会强制关闭其他程序；如果还不放心，可以先把动作改成「只提示，不执行」再启用。',
       'confirm.ok': '确认启用',
       'confirm.cancel': '暂不启用',
-      'hint.cancel': '取消方式：点「取消自动关机」，或向任意会话发送一条消息（有项目开始运行会自动取消）。',
-      'hint.scope': '插件随 DSH 运行；退出 DSH 会一起取消计时。卸载或停用插件即彻底关闭此功能。',
-      'hint.scopeOnly': '只统计 DSH 的会话与后台任务；DSH 之外的编译、终端脚本不会被检测。',
+      'hint.actionSafety': '关机将强制关闭其他程序；休眠需系统已启用休眠。',
+      'hint.footer': '取消：上方按钮或发消息；仅统计 DSH 内工作，退出 DSH 即取消。',
     }
 
     const EN = {
@@ -134,29 +126,26 @@ window.__ModuleLoader__.load({
       'trigger.armed': 'Waiting',
       'trigger.idle': 'Idle wait',
       'trigger.executing': 'Acting',
+      'trigger.outside': 'Outside hours',
       'panel.title': 'Auto power-off / hibernate',
       'panel.close': 'Close',
       'panel.loading': 'Reading status…',
       'status.off': 'Off',
       'status.offDetail': 'No power action will be taken.',
       'status.idle': 'On · waiting for a project',
-      'status.idleDetail': 'Progress appears here once something runs.',
       'status.running': 'On · projects running',
       'status.waiting': 'On · waiting for projects to finish',
-      'status.waitingDetail': 'Everything has finished; the idle timer is running.',
       'status.idleWait': 'On · idle wait',
       'status.countdown': 'Counting down',
       'status.test': 'Dry run',
       'status.executing': 'Running the action…',
       'status.executingDetail': 'Flushing session logs and performing the action; it cannot be cancelled now.',
+      'status.outside': 'On · outside the active window',
+      'status.outsideDetail': 'Projects are detected and timed only inside {window}; nothing is tracked now.',
       'status.runningLine': 'Running: {agents} sessions, {jobs} background jobs',
       'status.idleLine': 'All projects finished; idle for {time}',
-      'status.windowLine': 'Outside the active window {start}–{end}',
-      'status.skipped': 'Skipped last time: the countdown started outside the active window',
-      'status.lastExecuted': 'Last action: {action} · {time}',
       'status.lastFailed': 'Last action failed: {detail}',
       'status.lastCancelled': 'Last plan cancelled: {reason}',
-      'status.lastTest': 'Last dry run completed (no system action)',
       'countdown.title': 'Auto power-off countdown',
       'countdown.text': 'Will {action}',
       'countdown.detail': 'All projects have finished',
@@ -179,11 +168,8 @@ window.__ModuleLoader__.load({
       'action.lock': 'lock the screen',
       'action.none': 'notify only',
       'section.action': 'Action',
-      'section.actionHint': '"Shut down" force-closes other applications; "hibernate" needs hibernation enabled (run powercfg /hibernate on as administrator). Try "Dry run" or "Notify only" first.',
       'section.idle': 'Idle wait',
-      'section.idleHint': 'How long every project must stay finished before the countdown. 0 starts it immediately (0–720 min).',
       'section.countdown': 'Countdown',
-      'section.countdownHint': 'Grace period before acting; cancel it any time. 0 acts immediately (0–1800 s).',
       'section.window': 'Active window',
       'section.windowStart': 'Start time',
       'section.windowEnd': 'End time',
@@ -194,9 +180,8 @@ window.__ModuleLoader__.load({
       'time.clear': 'Clear',
       'time.done': 'Done',
       'time.none': 'Not set',
-      'section.windowHint': 'Leave both empty for all day; if you fill one, fill both. Click a time field to pick it. For a window across midnight, start later than end, e.g. 22:00–08:00.',
+      'section.windowHint': 'Empty = all day; across midnight, e.g. 22:00–05:00.',
       'section.countJobs': 'Count background jobs',
-      'section.countJobsHint': 'DSH background jobs keep the schedule waiting instead of being interrupted.',
       'unit.minute': 'min',
       'unit.second': 's',
       'save': 'Save settings',
@@ -221,9 +206,8 @@ window.__ModuleLoader__.load({
       'confirm.body': 'Enabling applies this plan: {summary}. Shutting down or hibernating force-closes other applications; if unsure, change the action to "Notify only" first.',
       'confirm.ok': 'Enable',
       'confirm.cancel': 'Not now',
-      'hint.cancel': 'To cancel: press "Cancel auto power-off", or send a message to any session (running work cancels it automatically).',
-      'hint.scope': 'The plugin lives inside DSH; quitting DSH cancels any countdown. Uninstall or disable the plugin to turn the feature off for good.',
-      'hint.scopeOnly': 'Only DSH sessions and DSH background jobs are counted; builds and scripts outside DSH are invisible.',
+      'hint.actionSafety': 'Shut down force-closes other apps; hibernation must be enabled in the OS.',
+      'hint.footer': 'Cancel: the button above or send a message; counts DSH work only and stops with DSH.',
     }
 
     const CSS = `
@@ -542,7 +526,6 @@ window.__ModuleLoader__.load({
       if (!data?.state) return { tone: '', title: t('panel.loading'), lines: [] }
       const state = data.state
       const settings = data.settings
-      const actionLabel = t(`action.${state.action}`)
       const running = state.runningAgents + state.runningJobs
       const lines = []
       const runningLine = fill(t('status.runningLine'), { agents: state.runningAgents, jobs: state.runningJobs })
@@ -562,6 +545,10 @@ window.__ModuleLoader__.load({
         title = t('status.off')
         lines.push(t('status.offDetail'))
         if (running > 0) lines.push(runningLine)
+      } else if (state.phase === 'outside') {
+        tone = ''
+        title = t('status.outside')
+        lines.push(fill(t('status.outsideDetail'), { window: windowLabel(t, settings) }))
       } else if (running > 0) {
         tone = 'busy'
         title = t('status.running')
@@ -571,33 +558,15 @@ window.__ModuleLoader__.load({
         lines.push(fill(t('status.idleLine'), { time: fmtIdle(state.idleSeconds, t) }))
       } else if (state.phase === 'armed') {
         title = t('status.waiting')
-        lines.push(t('status.waitingDetail'))
       } else {
-        lines.push(t('status.idleDetail'))
+        // Title alone is enough while idle; avoid another line of small copy.
       }
 
-      if (settings) lines.push(summaryLine(t, settings))
-      if (state.enabled && !state.insideWindow && settings?.windowStart) {
-        lines.push(fill(t('status.windowLine'), { start: settings.windowStart, end: settings.windowEnd }))
-      }
-      if (state.skipped === 'outside-window') lines.push(t('status.skipped'))
-
-      const finished = state.phase === 'idle' || state.phase === 'disabled'
-      if (finished && state.lastOutcome !== '' && state.lastOutcome !== 'countdown-started' && state.lastOutcome !== 'test-started') {
-        if (state.lastOutcome === 'executed') {
-          lines.push(state.lastAction === 'test'
-            ? t('status.lastTest')
-            : fill(t('status.lastExecuted'), {
-              action: t(`action.${state.lastAction}`),
-              time: new Date(state.lastAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            }))
-        } else if (state.lastOutcome === 'failed') {
-          lines.push(fill(t('status.lastFailed'), { detail: state.lastDetail }))
-        } else if (state.lastOutcome === 'test-ok') {
-          lines.push(t('status.lastTest'))
-        } else if (state.lastOutcome === 'cancelled' || state.lastOutcome === 'cancelled-by-work' || state.lastOutcome === 'cancelled-by-config') {
-          lines.push(fill(t('status.lastCancelled'), { reason: state.lastDetail || t('status.off') }))
-        }
+      const settled = state.phase === 'idle' || state.phase === 'disabled' || state.phase === 'outside'
+      if (settled && state.lastOutcome === 'failed') {
+        lines.push(fill(t('status.lastFailed'), { detail: state.lastDetail }))
+      } else if (settled && (state.lastOutcome === 'cancelled' || state.lastOutcome === 'cancelled-by-work' || state.lastOutcome === 'cancelled-by-config' || state.lastOutcome === 'cancelled-by-window')) {
+        lines.push(fill(t('status.lastCancelled'), { reason: state.lastDetail || t('status.off') }))
       }
       return { tone, title, lines }
     }
@@ -606,6 +575,7 @@ window.__ModuleLoader__.load({
     function triggerHint(t, state, now) {
       if (!state) return ''
       if (state.phase === 'executing') return t('trigger.executing')
+      if (state.phase === 'outside') return t('trigger.outside')
       if (state.phase === 'countdown') return fmtClock(secondsLeft(state, now))
       if (state.phase === 'test') return fill(t('trigger.test'), { time: fmtClock(secondsLeft(state, now)) })
       const running = state.runningAgents + state.runningJobs
@@ -826,7 +796,7 @@ window.__ModuleLoader__.load({
         ? ''
         : state.phase === 'countdown' || state.phase === 'test' || state.phase === 'executing'
           ? 'count'
-          : (state.runningAgents + state.runningJobs) > 0 ? 'busy' : state.enabled ? 'on' : ''
+          : state.phase === 'outside' ? '' : (state.runningAgents + state.runningJobs) > 0 ? 'busy' : state.enabled ? 'on' : ''
 
       const triggerLabel = live
         ? `${t('panel.title')} — ${hint}`
@@ -905,7 +875,7 @@ window.__ModuleLoader__.load({
 
             h('div', { className: 'psb-rows' },
               h('div', { className: 'psb-groupTitle' }, t('section.trigger')),
-              h(Row, { label: t('section.action'), hint: t('section.actionHint') },
+              h(Row, { label: t('section.action') },
                 h('select', {
                   className: 'psb-select',
                   'aria-label': t('section.action'),
@@ -913,7 +883,7 @@ window.__ModuleLoader__.load({
                   disabled: busy || draft === null || state?.phase === 'countdown',
                   onChange: event => edit('action', event.target.value),
                 }, ACTIONS.map(value => h('option', { key: value, value }, t(`action.${value}`))))),
-              h(Row, { label: t('section.idle'), hint: t('section.idleHint') },
+              h(Row, { label: t('section.idle') },
                 h('input', {
                   className: 'psb-input num', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
                   'aria-label': t('section.idle'),
@@ -921,7 +891,7 @@ window.__ModuleLoader__.load({
                   onChange: event => editNumeric(event, 0, 720, value => edit('idleMinutes', value)),
                 }),
                 h('span', { className: 'psb-suffix' }, t('unit.minute'))),
-              h(Row, { label: t('section.countdown'), hint: t('section.countdownHint') },
+              h(Row, { label: t('section.countdown') },
                 h('input', {
                   className: 'psb-input num', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
                   'aria-label': t('section.countdown'),
@@ -951,7 +921,7 @@ window.__ModuleLoader__.load({
                   disabled: busy || draft === null,
                   onClick: event => openTimeField('end', event),
                 }, draft?.windowEnd || t('time.none'))),
-              h(Row, { label: t('section.countJobs'), hint: t('section.countJobsHint') },
+              h(Row, { label: t('section.countJobs') },
                 h(Switch, {
                   checked: draft?.countJobs === true,
                   disabled: busy || draft === null,
@@ -984,9 +954,8 @@ window.__ModuleLoader__.load({
               : null,
 
             h('div', { className: 'psb-tips' },
-              h('div', { className: 'psb-note' }, t('hint.cancel')),
-              h('div', { className: 'psb-note' }, t('hint.scopeOnly')),
-              h('div', { className: 'psb-note' }, t('hint.scope')))))
+              h('div', { className: 'psb-note' }, t('hint.actionSafety')),
+              h('div', { className: 'psb-note' }, t('hint.footer')))))
           : null,
         open && picker !== null
           ? h(TimePopover, {
