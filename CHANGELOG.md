@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.18 — 2026-11-24
+
+- The enable confirmation shows the plan on two lines: action plus active window, then idle/countdown timing.
+
 ## 0.3.17 — 2026-11-24
 
 - Removed the disabled-state explanation line and compacted the running summary to non-zero counts only, e.g. `运行中：1 会话 · 2 任务`.

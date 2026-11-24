@@ -64,7 +64,6 @@ window.__ModuleLoader__.load({
       'duration.seconds': '{n} 秒',
       'duration.minutes': '{n} 分钟',
       'duration.minutesSeconds': '{m} 分 {s} 秒',
-      'summary.line': '{action} · {window} · {timing}',
       'summary.idleThen': '空闲 {idle} 后倒计时 {countdown}',
       'summary.idleOnly': '空闲 {idle} 后立即执行',
       'summary.countdownOnly': '项目结束后倒计时 {countdown}',
@@ -110,7 +109,6 @@ window.__ModuleLoader__.load({
       'error.test': '试运行未能启动：{detail}',
       'error.hint': '如果一直失败，请刷新页面后重试。',
       'confirm.title': '确认启用？',
-      'confirm.body': '{summary}',
       'confirm.ok': '确认启用',
       'confirm.cancel': '暂不启用',
       'hint.actionSafety': '关机/休眠会关闭其他程序。',
@@ -155,7 +153,6 @@ window.__ModuleLoader__.load({
       'duration.seconds': '{n}s',
       'duration.minutes': '{n} min',
       'duration.minutesSeconds': '{m} min {s}s',
-      'summary.line': '{action} · {window} · {timing}',
       'summary.idleThen': 'after {idle} idle, a {countdown} countdown',
       'summary.idleOnly': 'after {idle} idle, act immediately',
       'summary.countdownOnly': 'a {countdown} countdown after the work ends',
@@ -201,7 +198,6 @@ window.__ModuleLoader__.load({
       'error.test': 'The dry run could not start: {detail}',
       'error.hint': 'If this keeps failing, reload the page and try again.',
       'confirm.title': 'Enable automatic actions?',
-      'confirm.body': '{summary}',
       'confirm.ok': 'Enable',
       'confirm.cancel': 'Not now',
       'hint.actionSafety': 'Shut down or hibernate closes other apps.',
@@ -295,6 +291,7 @@ window.__ModuleLoader__.load({
 .psb-btn.danger{color:var(--dsw-alias-state-error-primary);border-color:color-mix(in srgb,var(--dsw-alias-state-error-primary) 45%,transparent)}
 .psb-confirm{display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid color-mix(in srgb,var(--dsw-alias-state-warn-primary) 45%,transparent);border-radius:10px;background:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 6%,transparent)}
 .psb-note{font-size:12px;line-height:1.6;color:var(--dsw-alias-label-secondary)}
+.psb-confirmPlan{display:flex;flex-direction:column;gap:2px}
 .psb-note.bad{color:var(--dsw-alias-state-error-primary)}
 .psb-note.warn{color:var(--dsw-alias-state-warn-primary)}
 .psb-note.ok{color:var(--dsw-alias-state-success-primary)}
@@ -362,9 +359,9 @@ window.__ModuleLoader__.load({
       return fill(t('summary.windowRange'), { start: settings.windowStart, end: settings.windowEnd })
     }
 
-    /** One-sentence plan summary. */
-    function summaryLine(t, settings) {
-      if (!settings) return ''
+    /** Split the plan into an action/window head and a timing line. */
+    function summaryParts(t, settings) {
+      if (!settings) return { action: '', window: '', timing: '' }
       const action = t(`action.${settings.action}`)
       const idle = Number(settings.idleMinutes) || 0
       const countdown = Number(settings.countdownSeconds) || 0
@@ -373,7 +370,7 @@ window.__ModuleLoader__.load({
       else if (idle > 0) timing = fill(t('summary.idleOnly'), { idle: fmtIdle(idle * 60, t), action })
       else if (countdown > 0) timing = fill(t('summary.countdownOnly'), { countdown: fmtClock(countdown) })
       else timing = t('summary.now')
-      return fill(t('summary.line'), { action, window: windowLabel(t, settings), timing })
+      return { action, window: windowLabel(t, settings), timing }
     }
 
     /** Countdown seconds left, up to date with the local clock. */
@@ -881,7 +878,7 @@ window.__ModuleLoader__.load({
       const hint = triggerHint(t, state, now)
       const canCancel = state !== undefined && state !== null
         && (state.armed || state.phase === 'countdown' || state.phase === 'test')
-      const confirmSummary = summaryLine(t, draft)
+      const confirmPlan = summaryParts(t, draft)
       const dotTone = state === undefined || state === null
         ? ''
         : state.phase === 'countdown' || state.phase === 'test' || state.phase === 'executing'
@@ -955,7 +952,9 @@ window.__ModuleLoader__.load({
             confirming
               ? h('div', { className: 'psb-confirm' },
                 h('div', { className: 'psb-labelText' }, t('confirm.title')),
-                h('div', { className: 'psb-note' }, fill(t('confirm.body'), { summary: confirmSummary })),
+                h('div', { className: 'psb-note psb-confirmPlan' },
+                  h('div', {}, `${confirmPlan.action} · ${confirmPlan.window}`),
+                  h('div', {}, confirmPlan.timing)),
                 h('div', { className: 'psb-actions' },
                   h('button', {
                     type: 'button', className: 'psb-btn primary', disabled: busy,
