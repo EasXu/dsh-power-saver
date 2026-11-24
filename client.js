@@ -265,16 +265,16 @@ window.__ModuleLoader__.load({
 .psb-timeField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-timeField:disabled{opacity:.5;cursor:default}
 .psb-timeField[data-empty]{color:var(--dsw-alias-label-secondary)}
-.psb-timePop{position:fixed;z-index:50;display:flex;flex-direction:column;gap:6px;width:200px;padding:8px;border:1px solid var(--dsw-alias-border-l1);border-radius:12px;background:var(--dsw-alias-bg-overlay);box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);color:var(--dsw-alias-label-primary);box-sizing:border-box}
-.psb-timeCols{display:flex;gap:6px}
+.psb-timePop{position:fixed;z-index:50;display:flex;flex-direction:column;gap:5px;padding:6px;border:1px solid var(--dsw-alias-border-l1);border-radius:10px;background:var(--dsw-alias-bg-overlay);box-shadow:0 12px 30px color-mix(in srgb,var(--dsw-alias-label-primary) 20%,transparent);color:var(--dsw-alias-label-primary);box-sizing:border-box}
+.psb-timeCols{display:flex;gap:5px}
 .psb-timeCol{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.psb-timeColTitle{padding:2px 4px;font-size:11px;color:var(--dsw-alias-label-secondary)}
-.psb-timeList{position:relative;display:flex;flex-direction:column;gap:1px;height:170px;padding:2px;overflow-y:auto;border-radius:8px;background:var(--dsw-alias-bg-layer-2)}
-.psb-timeItem{flex:none;height:24px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12.5px;font-variant-numeric:tabular-nums;text-align:center;cursor:pointer}
+.psb-timeColTitle{padding:1px 3px;font-size:10.5px;color:var(--dsw-alias-label-secondary)}
+.psb-timeList{position:relative;display:flex;flex-direction:column;gap:1px;height:150px;padding:1px;overflow-y:auto;border-radius:7px;background:var(--dsw-alias-bg-layer-2)}
+.psb-timeItem{flex:none;height:22px;border:none;border-radius:5px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:12px;font-variant-numeric:tabular-nums;text-align:center;cursor:pointer}
 .psb-timeItem:hover{background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-1))}
 .psb-timeItem[data-selected]{font-weight:600;color:var(--dsw-alias-brand-primary);background:var(--dsw-alias-bg-layer-1);box-shadow:inset 0 0 0 1px var(--dsw-alias-brand-primary)}
-.psb-timeFoot{display:flex;align-items:center;gap:6px}
-.psb-timeFoot .psb-btn{height:26px;padding:0 8px;font-size:12px}
+.psb-timeFoot{display:flex;align-items:center;gap:5px}
+.psb-timeFoot .psb-btn{height:24px;padding:0 6px;font-size:11.5px}
 .psb-timeSpacer{flex:1}
 .psb-suffix{flex:none;font-size:12px;color:var(--dsw-alias-label-secondary)}
 .psb-switch{width:38px;height:22px;border:none;border-radius:11px;background:var(--dsw-alias-border-l2);position:relative;cursor:pointer;transition:background .15s ease;flex:none;padding:0}
@@ -454,7 +454,7 @@ window.__ModuleLoader__.load({
     }
 
     /** A non-looping hour/minute picker for one time field. */
-    function TimePopover({ which, left, top, value, t, onChange, onClose }) {
+    function TimePopover({ which, left, top, width, value, t, onChange, onClose }) {
       const rootRef = useRef(null)
       const hourList = useRef(null)
       const minuteList = useRef(null)
@@ -501,7 +501,7 @@ window.__ModuleLoader__.load({
       return h('div', {
         ref: rootRef,
         className: 'psb-timePop',
-        style: { left, top },
+        style: { left, top, width },
         role: 'dialog',
         'aria-label': t('time.title'),
       },
@@ -888,14 +888,15 @@ window.__ModuleLoader__.load({
       /** Open the non-looping hour/minute picker for one field. */
       const openTimeField = (which, event) => {
         setMenu(null)
-        const rect = event.currentTarget.getBoundingClientRect()
-        const width = 200
-        const height = 250
-        const left = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8))
+        const control = event.currentTarget.closest('.psb-control')
+        const rect = (control ?? event.currentTarget).getBoundingClientRect()
+        const width = Math.min(150, Math.round(rect.width))
+        const height = 216
+        const left = Math.max(4, Math.min(rect.left, window.innerWidth - width - 8))
         const top = rect.bottom + 6 + height <= window.innerHeight - 8
           ? rect.bottom + 6
           : Math.max(8, rect.top - height - 6)
-        setPicker(current => (current !== null && current.which === which ? null : { which, left, top }))
+        setPicker(current => (current !== null && current.which === which ? null : { which, left, top, width }))
       }
 
       /** Open the custom action menu aligned to its field. */
@@ -1071,6 +1072,7 @@ window.__ModuleLoader__.load({
             which: picker.which,
             left: picker.left,
             top: picker.top,
+            width: picker.width,
             value: picker.which === 'start' ? (draft?.windowStart ?? '') : (draft?.windowEnd ?? ''),
             t,
             onChange: next => edit(picker.which === 'start' ? 'windowStart' : 'windowEnd', next),

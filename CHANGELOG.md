@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.13 — 2026-11-24
+
+- Compressed the time picker from 200px to 150px (matching the field column): shorter rows, smaller labels and footer buttons, anchored to the whole time row.
+
 ## 0.3.12 — 2026-11-24
 
 - The panel now measures the sidebar footer action row and matches its width and left edge, including when the sidebar is resized. Internal fields and labels were tightened to fit.
