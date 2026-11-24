@@ -2,6 +2,12 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.1 — 2026-11-24
+
+- All form controls share one right-aligned column: the action menu, number fields with inline units, time fields, and the background-jobs switch line up with the same height and width.
+- Action buttons (save, dry run, cancel, reload) render at equal widths and heights, and no longer shift when status text appears.
+- Removed the redundant "Trigger" section heading; a divider now separates the status area from the settings rows.
+
 ## 0.3.0 — 2026-11-24
 
 - The active window now gates the whole feature: outside it nothing is detected, timed, armed, or executed.

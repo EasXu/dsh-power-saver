@@ -70,7 +70,6 @@ window.__ModuleLoader__.load({
       'summary.now': '项目结束后立即执行',
       'summary.windowAllDay': '全天生效',
       'summary.windowRange': '{start}–{end}',
-      'section.trigger': '触发条件',
       'action.shutdown': '关机',
       'action.hibernate': '休眠',
       'action.lock': '锁定屏幕',
@@ -98,7 +97,7 @@ window.__ModuleLoader__.load({
       'unsaved': '有未保存的修改',
       'test': '试运行',
       'testing': '试运行中…',
-      'cancel': '取消自动关机',
+      'cancel': '取消',
       'cancelDone': '已取消，不会再自动执行',
       'cancelNothing': '当前没有待执行的计划',
       'testStarted': '试运行开始，稍后显示结果',
@@ -162,7 +161,6 @@ window.__ModuleLoader__.load({
       'summary.now': 'immediately after the work ends',
       'summary.windowAllDay': 'all day',
       'summary.windowRange': '{start}–{end}',
-      'section.trigger': 'Trigger',
       'action.shutdown': 'shut down',
       'action.hibernate': 'hibernate',
       'action.lock': 'lock the screen',
@@ -190,7 +188,7 @@ window.__ModuleLoader__.load({
       'unsaved': 'Unsaved changes',
       'test': 'Dry run',
       'testing': 'Dry run…',
-      'cancel': 'Cancel auto power-off',
+      'cancel': 'Cancel',
       'cancelDone': 'Cancelled; nothing will run',
       'cancelNothing': 'No pending plan is running',
       'testStarted': 'Dry run started; the result appears here',
@@ -242,18 +240,20 @@ window.__ModuleLoader__.load({
 .psb-countdown{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--dsw-alias-state-warn-primary) 45%,transparent);border-radius:10px;background:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 7%,transparent)}
 .psb-bigTime{font-size:22px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--dsw-alias-state-warn-primary);white-space:nowrap}
 .psb-countdownText{flex:1;min-width:0;font-size:12px;line-height:1.5;color:var(--dsw-alias-label-secondary);word-break:break-word}
-.psb-rows{display:flex;flex-direction:column}
-.psb-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--dsw-alias-border-l1)}
-.psb-groupTitle + .psb-row{border-top:none;padding-top:2px}
-.psb-groupTitle{font-size:12px;font-weight:600;color:var(--dsw-alias-label-secondary);padding:2px 0 4px}
+.psb-rows{display:flex;flex-direction:column;margin-top:2px;padding-top:2px;border-top:1px solid var(--dsw-alias-border-l1)}
+.psb-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--dsw-alias-border-l1)}
+.psb-row:first-child{border-top:none;padding-top:2px}
 .psb-rowText{flex:1;min-width:0}
 .psb-labelText{font-size:13px;font-weight:500;line-height:1.5}
 .psb-hintText{margin-top:3px;font-size:12px;line-height:1.6;color:var(--dsw-alias-label-secondary)}
-.psb-control{flex:none;display:flex;align-items:center;gap:6px;padding-top:1px}
-.psb-input,.psb-select{height:30px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;outline:none;box-sizing:border-box}
-.psb-input:focus,.psb-select:focus{border-color:var(--dsw-alias-brand-primary)}
-.psb-input.num{width:68px;text-align:right}
-.psb-timeField{display:inline-flex;align-items:center;justify-content:center;height:30px;min-width:88px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer}
+.psb-control{flex:0 0 200px;display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.psb-select{width:100%;height:30px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;outline:none;box-sizing:border-box}
+.psb-select:focus{border-color:var(--dsw-alias-brand-primary)}
+.psb-field{display:flex;align-items:center;flex:1;min-width:0;height:30px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);box-sizing:border-box;overflow:hidden}
+.psb-field:focus-within{border-color:var(--dsw-alias-brand-primary)}
+.psb-fieldInput{flex:1;min-width:0;height:100%;padding:0 8px;border:none;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;outline:none;text-align:right}
+.psb-fieldUnit{flex:none;padding-right:8px;font-size:12px;color:var(--dsw-alias-label-secondary)}
+.psb-timeField{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;min-width:0;height:30px;padding:0 6px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer;box-sizing:border-box}
 .psb-timeField:hover:not(:disabled){border-color:var(--dsw-alias-border-l2)}
 .psb-timeField:disabled{opacity:.5;cursor:default}
 .psb-timeField[data-empty]{color:var(--dsw-alias-label-secondary)}
@@ -268,14 +268,15 @@ window.__ModuleLoader__.load({
 .psb-timeFoot{display:flex;align-items:center;gap:6px}
 .psb-timeFoot .psb-btn{height:26px;padding:0 8px;font-size:12px}
 .psb-timeSpacer{flex:1}
-.psb-suffix{font-size:12px;color:var(--dsw-alias-label-secondary)}
+.psb-suffix{flex:none;font-size:12px;color:var(--dsw-alias-label-secondary)}
 .psb-switch{width:38px;height:22px;border:none;border-radius:11px;background:var(--dsw-alias-border-l2);position:relative;cursor:pointer;transition:background .15s ease;flex:none;padding:0}
 .psb-switch.is-on{background:var(--dsw-alias-brand-primary)}
 .psb-switch:disabled{opacity:.5;cursor:default}
 .psb-knob{position:absolute;top:3px;left:3px;display:block;width:16px;height:16px;border-radius:50%;background:var(--dsw-alias-bg-layer-1);transition:transform .15s ease}
 .psb-switch.is-on .psb-knob{transform:translateX(16px)}
 .psb-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.psb-btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer}
+.psb-actions .psb-btn{flex:1 1 70px;min-width:0;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.psb-btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:transparent;color:var(--dsw-alias-label-primary);font-family:inherit;font-size:13px;cursor:pointer}
 .psb-btn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,var(--dsw-alias-bg-layer-2))}
 .psb-btn:disabled{opacity:.5;cursor:default}
 .psb-btn.primary{background:var(--dsw-alias-bg-layer-2);border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary);font-weight:500}
@@ -290,7 +291,7 @@ window.__ModuleLoader__.load({
 .psb-pillCard{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--dsw-alias-border-l2);border-radius:12px;background:var(--dsw-alias-bg-overlay);box-shadow:0 10px 28px color-mix(in srgb,var(--dsw-alias-label-primary) 18%,transparent)}
 .psb-pillText{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .psb-pillError{max-width:160px;font-size:11px;line-height:1.4;color:var(--dsw-alias-state-error-primary)}
-@media (max-width:470px){.psb-row{flex-direction:column;gap:6px}.psb-control{width:100%}}
+@media (max-width:470px){.psb-row{flex-direction:column;align-items:stretch;gap:6px}.psb-control{flex-basis:auto;width:100%}}
 `
 
     /** Translate with `{name}` placeholders. */
@@ -874,7 +875,6 @@ window.__ModuleLoader__.load({
               : null,
 
             h('div', { className: 'psb-rows' },
-              h('div', { className: 'psb-groupTitle' }, t('section.trigger')),
               h(Row, { label: t('section.action') },
                 h('select', {
                   className: 'psb-select',
@@ -884,21 +884,23 @@ window.__ModuleLoader__.load({
                   onChange: event => edit('action', event.target.value),
                 }, ACTIONS.map(value => h('option', { key: value, value }, t(`action.${value}`))))),
               h(Row, { label: t('section.idle') },
-                h('input', {
-                  className: 'psb-input num', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
-                  'aria-label': t('section.idle'),
-                  value: draft?.idleMinutes ?? 10, disabled: busy || draft === null,
-                  onChange: event => editNumeric(event, 0, 720, value => edit('idleMinutes', value)),
-                }),
-                h('span', { className: 'psb-suffix' }, t('unit.minute'))),
+                h('div', { className: 'psb-field' },
+                  h('input', {
+                    className: 'psb-fieldInput', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
+                    'aria-label': t('section.idle'),
+                    value: draft?.idleMinutes ?? 10, disabled: busy || draft === null,
+                    onChange: event => editNumeric(event, 0, 720, value => edit('idleMinutes', value)),
+                  }),
+                  h('span', { className: 'psb-fieldUnit' }, t('unit.minute')))),
               h(Row, { label: t('section.countdown') },
-                h('input', {
-                  className: 'psb-input num', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
-                  'aria-label': t('section.countdown'),
-                  value: draft?.countdownSeconds ?? 60, disabled: busy || draft === null,
-                  onChange: event => editNumeric(event, 0, 1800, value => edit('countdownSeconds', value)),
-                }),
-                h('span', { className: 'psb-suffix' }, t('unit.second'))),
+                h('div', { className: 'psb-field' },
+                  h('input', {
+                    className: 'psb-fieldInput', type: 'text', inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4,
+                    'aria-label': t('section.countdown'),
+                    value: draft?.countdownSeconds ?? 60, disabled: busy || draft === null,
+                    onChange: event => editNumeric(event, 0, 1800, value => edit('countdownSeconds', value)),
+                  }),
+                  h('span', { className: 'psb-fieldUnit' }, t('unit.second')))),
               h(Row, { label: t('section.window'), hint: t('section.windowHint') },
                 h('button', {
                   type: 'button',
