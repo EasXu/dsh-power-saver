@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.4 — 2026-11-24
+
+- Centred the content of the aligned fields: the action label, and the number plus its unit, sit in the middle of their box like the time fields. The action chevron stays at the right edge.
+
 ## 0.3.3 — 2026-11-24
 
 - Replaced the native action `<select>` with a theme-matched dropdown: the menu surface, rounded corners, hover and selected states now follow DSH tokens, and the native blue highlight is gone.
