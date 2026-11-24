@@ -2,6 +2,10 @@ English | [简体中文](CHANGELOG.zh.md)
 
 # Changelog
 
+## 0.3.11 — 2026-11-24
+
+- Shortened the outside-window status line to `仅在 HH:MM–HH:MM 内检测。` / `Only detected inside HH:MM–HH:MM.`
+
 ## 0.3.10 — 2026-11-24
 
 - Compressed the panel from 280px to 260px: tighter body padding, a 156px field column, and slightly smaller row labels. Alignment, centred content, equal-width buttons, and the field-width action menu are preserved.
